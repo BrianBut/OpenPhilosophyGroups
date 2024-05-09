@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<div class="container-fluid">
+    <h3 class="text-center">TODOS</h3>
+    {% for t in notdone: %}
+    <div class="row">
+      <div class="col-1">
+        <p class="md">{{ t['creation_datetime'] }}</p>
+      </div>
+      <div class="col-9">
+        <p class="md">{{ t['content'] }}</p>
+      </div>
+      <div class="col-2">
+        <p><a class="btn btn-primary btn-sm m-2" href="{{url_for('manage.mark_done', tdid=t['id'])}}" role="button">Mark as Completed</a></p>
+      </div>
+    </div>
+    {% endfor %}
+    <h3 class="text-center">Done</h3>
+    {% for t in done: %}
+    <div class="row">
+        <div class="col-2">
+            <p><a class="btn btn-primary btn-sm m-2" href="{{url_for('manage.mark_undone', tdid=t['id'])}}" role="button">Mark as incomplete</a></p>
+          </div>
+      <div class="col-9">
+        <div class="col-9">
+            <p class="md">{{ t['content'] }}</p>
+          </div>
+      </div>
+      <div class="col-1">
+        <p class="md">{{ t['completion_datetime'] }}</p>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-10"></div>
+        <div class="col-2"
+            <p><a class="btn btn-primary btn-sm m-2" href="{{ url_for('manage.new_todo') }}" role="button">New Todo</a></p>
+        </div>
+    </div>
+</div> 
+
+{% endblock %}
+{% block scripts %}
+<script src="/static/scripts/mymarkup.js"></script>
+{% endblock %}
