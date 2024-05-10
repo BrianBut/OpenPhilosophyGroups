@@ -19,8 +19,6 @@ class TodoModel(db.Model):
     def author_fullname(self):
         return User.get_fullname(self.author_id) 
     
-    
-    
     def dump(self):
         return { "id":self.id, "group":self.group, "content":self.content, 
           "author_id":self.author_id, 

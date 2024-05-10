@@ -62,5 +62,6 @@ class TodoModelTestCase(unittest.TestCase):
         t = TodoModel( group=7, content="rhubarb")
         db.session.add( t )
         db.session.commit()
-        print('easydate: ',t.easydate())
-        assert( t.easydate() is not None )
+        #print('easydate: ',easydate())
+        self.assertTrue( t.creation_datetime is not None )
+        self.assertTrue( t.completion_datetime is not None )
