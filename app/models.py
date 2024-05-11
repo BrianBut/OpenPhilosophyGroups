@@ -5,7 +5,7 @@ from .mymodels.maillistmodel import MailList
 from .mymodels.usermodel import Group, Permission, Role, User, AnonymousUser
 from .mymodels.topicmodel import Topic
 from .mymodels.commentmodel import Comment
-from .mymodels.infomodel import InfoModel
-from .mymodels.todomodel import TodoModel
+from .mymodels.infomodel import Info
+from .mymodels.todomodel import Todos
 
 

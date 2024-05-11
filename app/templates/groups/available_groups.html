@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block page_content %}
+<section>
+<div class="container-fluid">
+{% for t in topic_dict: %}
+<h3>{{ t['title']}}</h3>
+<p class="md">{{ t['summary'] }}</p>
+<p class="md">{{ t['content'] }}</p>
+{% if current_user.is_administrator() %}
+<a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.edit_info', id=t['id'])}}" role="button">Edit this Info Topic</a>
+{% endif %}
+{% endfor %}
+</div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="/static/scripts/mymarkup.js"></script>
+{% endblock %}

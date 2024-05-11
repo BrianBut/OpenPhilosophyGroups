@@ -5,7 +5,7 @@ from flask_login import current_user
 from flask_login import login_required
 from .forms import RescheduleTopicForm, ConfirmDeleteForm, EditUserForm, NewGroupForm, EditGroupForm, TodoForm, ROLE_CHOICES
 from .. import db
-from ..models import Group, Topic, User, Role, TodoModel
+from ..models import Group, Topic, User, Role, Todos
 from ..decorators import admin_required, moderator_required
 from datetime import datetime, timezone
 from . import manage
@@ -85,7 +85,7 @@ def delete_topic():
 def new_todo():
     form = TodoForm()
     if request.method == 'POST' and form.validate():
-        todo = TodoModel(group=current_user.current_group,content=form.content.data,author_id=current_user.id, creation_datetime=datetime.now)
+        todo = Todos(group=current_user.current_group,content=form.content.data,author_id=current_user.id, creation_datetime=datetime.now)
         todo.creation_datetime=datetime.now(tz=timezone.utc)
         db.session.add(todo)
         db.session.commit()
@@ -98,9 +98,9 @@ def new_todo():
 @login_required
 @admin_required
 def todos(gpid):
-    notdone = TodoModel.notdone(gpid)
+    notdone = Todos.notdone(gpid)
     print( "notdone: ",notdone )
-    done = TodoModel.done(gpid)
+    done = Todos.done(gpid)
     print( "done: ",done )
     return render_template("manage/todos.html", notdone=notdone, done=done )
 
@@ -109,7 +109,7 @@ def todos(gpid):
 @login_required
 @admin_required
 def mark_done( tdid ):
-    todo = TodoModel.query.get( tdid )
+    todo = Todos.query.get( tdid )
     todo.completion_datetime = datetime.now(tz=timezone.utc)
     #logger.info('todo marked_done: {}'.format( todo.dump()))
     db.session.add( todo )
@@ -120,7 +120,7 @@ def mark_done( tdid ):
 @login_required
 @admin_required
 def mark_undone( tdid ):
-    todo = TodoModel.query.get( tdid )
+    todo = Todos.query.get( tdid )
     todo.completion_datetime = datetime.max
     logger.info('todo marked_unddone: {}'.format( todo.dump()))
     db.session.add( todo )
@@ -128,7 +128,7 @@ def mark_undone( tdid ):
     return redirect(url_for('manage.todos', gpid=todo.group))
 
 ###################### groups #############################
-
+# This is for admin use
 @manage.route('/groups')
 @login_required
 @admin_required

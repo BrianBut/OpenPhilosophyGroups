@@ -36,3 +36,5 @@ class Group(db.Model):
         group = Group(groupname='Philosphy Groups')
         db.session.add( group )
         db.session.commit()
+
+    

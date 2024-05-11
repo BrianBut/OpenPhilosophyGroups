@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from .usermodel import User
 
 # Is the title redundant?
-class InfoModel(db.Model):
+class Info(db.Model):
     __tablename__ = 'topicinfo'
     id = db.Column(db.Integer, primary_key=True)
     group = db.Column(db.Integer, default=1)

@@ -7,7 +7,7 @@ def easydate( dt ):
 
 from .usermodel import User
 
-class TodoModel(db.Model):
+class Todos(db.Model):
     __tablename__ = 'todos'
     id = db.Column(db.Integer, primary_key=True)
     group = db.Column(db.Integer, default=1)
@@ -29,13 +29,13 @@ class TodoModel(db.Model):
     @staticmethod
     def notdone(group_id):
         rv = []
-        for todo in TodoModel.query.filter_by( group = group_id, completion_datetime = datetime.max).order_by('creation_datetime').all():
+        for todo in Todos.query.filter_by( group = group_id, completion_datetime = datetime.max).order_by('creation_datetime').all():
             rv.append( todo.dump() )
         return rv
 
     @staticmethod
     def done(group_id):
         rv = []
-        for todo in TodoModel.query.filter_by( group = group_id).filter( TodoModel.completion_datetime !=  datetime.max).order_by('creation_datetime').limit(100).all():
+        for todo in Todos.query.filter_by( group = group_id).filter( Todos.completion_datetime !=  datetime.max).order_by('creation_datetime').limit(100).all():
             rv.append( todo.dump() )
         return rv

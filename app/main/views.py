@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 #from .forms import EditTopicForm, DeleteTopicForm, EditProfileForm, NewCommentForm, EditCommentForm, NewTopicForm, EditTopicForm, EmailForm
 from .forms import InfoForm
 from .. import db
-from ..models import Topic, User, Role, Comment, MailList, InfoModel, Group
+from ..models import Topic, User, Role, Comment, MailList, Info, Group
 from ..decorators import member_required, admin_required, moderator_required
 from . import main
 from ..loggingPA import logger
@@ -14,11 +14,20 @@ from ..loggingPA import logger
 def index():
     if current_user.is_authenticated:
         current_group = User.query.get_or_404(current_user.id).current_group
+        logger.info('current_group {}'.format(current_group))
         # divert to user group homepage
     else:
         current_group = 1
-    topic = InfoModel.query.filter_by(group=current_group).order_by('seq').all()
+
+    
+    topic = Info.query.filter_by(group=current_group).order_by('seq').all()
     return render_template('index.html', topic_dict=topic)
+
+    #u = User.query.get_or_404(id).first()
+    #available = Group.get.filter_by(current_group)
+
+    #g = Group.query.get.filter
+
 
 ################################## info ######################################################################
 # 6 May 2024
@@ -28,7 +37,7 @@ def index():
 def new_info():
     form=InfoForm()
     if request.method == 'POST' and form.validate():
-        info=InfoModel( title=form.title.data, content=form.content.data, group=current_user.current_group, author_id=current_user.id )
+        info=Info( title=form.title.data, content=form.content.data, group=current_user.current_group, author_id=current_user.id )
         db.session.add(info)
         db.session.commit()
         return redirect(url_for('.index'))
@@ -38,7 +47,7 @@ def new_info():
 @login_required
 @moderator_required
 def edit_info(id):
-    info = InfoModel.query.get_or_404(id)
+    info = Info.query.get_or_404(id)
     logger.info('info {}'.format( info.dump() ))
     form=InfoForm(info=info)
     if request.method == 'POST' and form.validate():
