@@ -47,3 +47,6 @@ venv
 instance
 config_prod
 config_dev
+
+# logging
+logs.lplog
