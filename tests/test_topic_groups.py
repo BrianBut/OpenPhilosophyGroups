@@ -20,5 +20,5 @@ class UserModelTestCase(unittest.TestCase):
 
     def test_default_groups(self):
         group = Group(groupname = 'Phil')
-        print('groupname, ',group.groupname)
+        #print('groupname, ',group.groupname)
         self.assertTrue(group.groupname == 'Phil') 

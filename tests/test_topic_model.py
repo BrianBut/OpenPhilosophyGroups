@@ -26,7 +26,7 @@ class TopicModelTestCase(unittest.TestCase):
         db.session.add(t)
         db.session.commit()
         t2 = Topic.query.first()
-        print("t.creation_datetime: {}".format(t2.creation_datetime))
+        #print("t.creation_datetime: {}".format(t2.creation_datetime))
         self.assertTrue(t.creation_datetime is not None)
 
     def test_discussion_datetime(self):
@@ -51,7 +51,7 @@ class TopicModelTestCase(unittest.TestCase):
         db.session.add(t)
         db.session.commit()
         t2 = Topic.query.first()
-        print('discussion_venue; {}, published: {}'.format( t2.discussion_venue(), t2.published ))
+        #print('discussion_venue; {}, published: {}'.format( t2.discussion_venue(), t2.published ))
         self.assertTrue( int(t2.published) == 0 )
         self.assertTrue( t.discussion_venue() == 'proposed' )
         self.assertTrue( t.discussion_datetime == datetime.min )
