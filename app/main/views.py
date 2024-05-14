@@ -33,29 +33,34 @@ def index():
 @login_required
 def home( gpid ):
     gp = Group.query.get_or_404(gpid)
-    logger.info("got group {}".format(gp))
+    logger.info("/home got group {}".format(gp.groupname))
+    founder = ''
+    if gp.founder:
+        founder = User.get_fullname(gp.founder)
 
-    # Todos only
-    if gp.category == GroupDoes.TODO:
+    if gp.is_todo():
+        logger.info("/home todos got group {}".format(gp))
         return redirect(url_for('manage.todos', gpid=gp))
-
-    # Info topics only
-    elif gp.category == GroupDoes.INFO:
+    
+    if gp.is_info():
        logger.info("info group {}".format(gp))
        info = Info.query.filter_by(group=gpid).order_by('seq').all()
        logger.info("info {}".format(info))
        return render_template('home.html', gpid=gpid, info=info )
     
-    '''
-    elif gp.has_meetings():
+    if gp.requires_registration():
+        pass
+    
+    if gp.has_meetings():
+        logger.info("/home has_meetings got group {}".format(gp))
         future_topics = Topic.query.filter_by(group=gpid).filter_by(published=True)
-        past_topics =
-        proposed_topics =
+        #past_topics =
+        #proposed_topics =
 
-    elif gp.is_online_only():
-        online_topics =
-    '''
-    return render_template('home.html', gpid=gpid, topic_dict='topic_dict' )
+    # default online group
+    topic = Topic.query.filter_by(group=gp.id).first()
+    logger.info("/home default got group {}".format(gp))
+    return render_template('homeonline.html', gp=gp, topic=topic, founder=founder )
 
 ################################## info ######################################################################
 # 6 May 2024

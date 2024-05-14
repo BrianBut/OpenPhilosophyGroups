@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block page_content %}
+{{ gp.groupname }}
+{{ founder }}
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">{{ topic.title }}</h4>
+      <p class="card-text">{{ topic.summary  }}</p> 
+      <!--<p class="card-text">{{ topic.summaryHTML }}</p> -->
+      <p class="card-text">{{ topic.content }}</p> 
+      <!--<p class="card-text">{{ topic.content }}</p> -->
+  </div>
+  {% if topic.founder == self.user_id: %}
+    <a class="button">Edit Content</a>
+  {% elif current_user.is_administrator(): %}
+    <a class="button">Edit Content</a>
+  {% endif %}
+
+  {% for comment in comments %}
+  <div class="card">
+    <div class="card-body">
+      <div class="card-text"> {{ comment.contentHTML|safe }} </div>
+      <div class="clearfix">
+        <div class="float-end">comment by: {{ comment.author_fullname() }}</div>
+      </div>
+      
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div class="container">
+  <a class="btn btn-primary btn-sm m-2" href="url_for('main.newcomment', topic_id=topic.id ) ">Add a new Comment</a>
+</div>
+{% endblock %}

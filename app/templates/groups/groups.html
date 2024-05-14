@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block page_content %}
+<div class="container-fluid">
+    <h3 class="text-center">Groups</h3>
+    <div class="row">
+      <div class="col-1">
+        <h5>id</h5>
+      </div>
+      <div class="col-2">
+        <h5>Group Name</h5>
+      </div>
+      <div class="col-7">
+        <h5>Category</h5>
+      </div>
+    </div>
+    
+    {% for g in necessary: %}
+    <div class="row">
+      <div class="col-1">
+        <p>{{ g['id'] }}</p>
+      </div>
+      <div class="col-2">
+        <p>{{ g['groupname'] }}</p>
+      </div>
+      <div class="col-7">
+        <p>Necessary</p>
+      </div>
+      <div class="col-2">
+        <p><a class="btn btn-primary btn-sm m-2" href={{ url_for('main.home', gpid=g.id ) }} role="button">Visit</a></p>
+      </div>
+    </div>
+    {% endfor %} 
+
+    {% for g in others: %}
+    <div class="row">
+      <div class="col-1">
+        <p>{{ g['id'] }}</p>
+      </div>
+      <div class="col-2">
+        <p>{{ g['groupname'] }}</p>
+      </div>
+      <div class="col-7">
+        <p>Open (Optional)</p>
+      </div>
+      <div class="col-2">
+        <p><a class="btn btn-primary btn-sm m-2" href={{ url_for('main.home', gpid=g.id ) }} role="button">Visit</a></p>
+      </div>
+    </div>
+    {% endfor %} 
+
+    {% for g in reqreg: %}
+    <div class="row">
+      <div class="col-1">
+        <p>{{ g['id'] }}</p>
+      </div>
+      <div class="col-2">
+        <p>{{ g['groupname'] }}</p>
+      </div>
+      <div class="col-7">
+        <p>Requires Registration and may be restricted</p>
+      </div>
+      <div class="col-2">
+        <p><a class="btn btn-primary btn-sm m-2" href={{ url_for('main.home', gpid=g.id ) }} role="button">Visit</a></p>
+      </div>
+    </div>
+    {% endfor %} 
+
+    {% for g in meets: %}
+    <div class="row">
+      <div class="col-1">
+        <p>{{ g['id'] }}</p>
+      </div>
+      <div class="col-2">
+        <p>{{ g['groupname'] }}</p>
+      </div>
+      <div class="col-7">
+        <p>This Group has Meetings</p>
+      </div>
+      <div class="col-2">
+        <p><a class="btn btn-primary btn-sm m-2" href={{ url_for('main.home', gpid=g.id ) }} role="button">Visit</a></p>
+      </div>
+    </div>
+    {% endfor %} 
+
+    {% for g in infos: %}
+    <div class="row">
+      <div class="col-1">
+        <p>{{ g['id'] }}</p>
+      </div>
+      <div class="col-2">
+        <p>{{ g['groupname'] }}</p>
+      </div>
+      <div class="col-7">
+        <p>Information Only</p>
+      </div>
+      <div class="col-2">
+        <p><a class="btn btn-primary btn-sm m-2" href={{ url_for('main.home', gpid=g.id ) }} role="button">Visit</a></p>
+      </div>
+    </div>
+    {% endfor %} 
+</div> 
+
+{% endblock %}

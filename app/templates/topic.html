@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block page_content %}
+{{ topic.dump() }}
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">{{ topic.title }}</h4>
+      <p class="card-text">DUMMY</p> 
+      <p class="card-text">{{ topic.summary  }}</p> 
+      <!--<p class="card-text">{{ topic.summaryHTML }}</p> -->
+      <p class="card-text">{{ topic.content }}</p> 
+      <!--<p class="card-text">{{ topic.content }}</p> -->
+      <div class="clearfix">
+        <div class="float-end">{{ topic.author_fullname() }}</div>
+        <div class="float-end">{{ topic.discussion_venue() }}</div>
+      </div>
+      <!-- only the owner or moderator can edit a topic -->
+      {% if ( current_user.id == topic.author_id ) or current_user.is_moderator() %}
+        <!-- past topics cannot be edited except by admin-->
+        {% if topic.discussion_venue() in ['proposed','online','planned','private'] or current_user.is_administrator() %}
+          <a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.edittopic', id=topic.id )}}" role="button">Edit This Topic</a>
+        {% endif %}
+      {% endif %}
+        <!-- only a moderator can delete or schedule a topic -->
+        {% if current_user.is_moderator() %}
+          <a class="btn btn-danger btn-sm m-2" href="{{ url_for('main.deletetopic', id=topic.id )}}" role="button">Delete This Topic</a>
+          <a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.setmeetingtime', topic_id=topic.id )}}" role="button">Schedule This Topic</a>
+        {% endif %}
+    </div>
+  </div>
+
+  {% for comment in comments %}
+  <div class="card">
+    <div class="card-body">
+      <div class="card-text"> {{ comment.contentHTML|safe }} </div>
+      <div class="clearfix">
+        <div class="float-end">comment by: {{ comment.author_fullname() }}</div>
+      </div>
+      {% if current_user.is_moderator() or (current_user.id==comment.author_id) %}
+        <a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.editcomment', comment_id=comment.id )}}" role="button">Edit This Comment</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div class="container">
+  <a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.newcomment', topic_id=topic.id ) }}">Add a new Comment</a>
+</div>
+{% endblock %}

@@ -129,12 +129,12 @@ def mark_undone( tdid ):
 
 ###################### groups #############################
 # This is for admin use
-@manage.route('/groups')
-@login_required
-@admin_required
-def groups():
-    groups = Group.query.order_by(Group.groupname).all()
-    return render_template("manage/groups.html", groups=groups)
+#@manage.route('/groups')
+#@login_required
+#@admin_required
+#def groups():
+#    groups = Group.query.order_by(Group.groupname).all()
+#    return render_template("manage/groups.html", groups=groups)
 
 @manage.route("/groupmembership/<int:gpid>")
 @login_required

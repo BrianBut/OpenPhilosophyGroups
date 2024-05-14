@@ -13,43 +13,46 @@ class Group(db.Model):
     __tablename__ = 'groups'
     id = db.Column(db.Integer, primary_key=True)
     groupname = db.Column(db.String(128), unique=True, nullable=False )
-    category = db.Column(db.Integer)
+    founder = db.Column(db.Integer, nullable=False)
+    category = db.Column(db.Integer, nullable=False)
 
     @staticmethod
     def insert_default_group():
-        group = Group(groupname='Open Philosphy Groups', category=GroupDoes.INFO)
+        group = Group(groupname='Open Philosphy Groups', founder=1, category=GroupDoes.INFO)
         db.session.add( group )
         db.session.commit()
+    
+    def set(self, gd):
+        d = int(gd)
+        category1 = self.category
+        self.category = int(self.category) | d 
+        print('D: {}, category: {}, int(self.category) or d {}'.format(d, category1, int(self.category) or d))
 
-    def bit_test(self, bitno):
-        if not self.category:
-            self.category = 0
-        bitstring = bin(self.category)[2:].zfill(6)
-        #print('bitstring: ',bitstring)
-        #print('bitno: {}, bitstring[bitno]: {}'.format( bitno, bitstring[bitno]))
-        if bitstring[bitno] == '1':
+    def is_info(self):
+        if GroupDoes.INFO & self.category:
+            return True
+
+    def is_todo(self):
+        if GroupDoes.TODO & self.category:
+            return True
+
+    def is_necessary(self):
+        if GroupDoes.NECESSARY & self.category:
+            return True
+
+    def has_meetings(self):
+        if GroupDoes.MEETING & self.category:
             return True
         return False
 
-    # has info only
-    def is_info(self):
-        return self.bit_test(5)
-
-    def is_todo(self):
-        return self.bit_test(4)
-
-    def is_online_only(self):
-        return self.bit_test(3)
-
-    def is_has_meetings(self):
-        return self.bit_test(2)
-
     # ie contribute or comment
     def requires_registration(self):
-        return self.bit_test(1)
+        if GroupDoes.REGISTRATION & self.category:
+            return True
 
-    def is_necessary(self):
-        return self.bit_test()
+    #def is_necessary(self):
+    #    return self.bit_test()
+
 
 
     

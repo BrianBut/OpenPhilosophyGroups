@@ -12,6 +12,9 @@
 {% endfor %}
 </div>
 </section>
+<section>
+    <a class="btn btn-primary btn-sm m-2" href="{{ url_for('groups.new_group') }}" role="button">Create a New Group</a>
+</section>
 {% endblock %}
 {% block scripts %}
 <script src="/static/scripts/mymarkup.js"></script>

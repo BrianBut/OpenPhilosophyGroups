@@ -14,7 +14,6 @@ class Topic(db.Model):
     creation_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
     discussion_datetime = db.Column(db.DateTime, default=datetime.min)
     published = db.Column(db.Integer, default=0)
-    online_only = db.Column(db.Boolean, default=False)
 
     def discussion_date(self):
         if self.discussion_datetime == datetime.min:

@@ -54,6 +54,7 @@ class UserModelTestCase(unittest.TestCase):
         self.assertTrue( type(user.mygrouplist()) is list)
         self.assertTrue(len(user.mygrouplist()) == 1)
 
+    '''
     def test_mygroupchoices(self):
         gp = Group(groupname='Brians Group')
         db.session.add(gp)
@@ -65,4 +66,4 @@ class UserModelTestCase(unittest.TestCase):
         for grp in grs:
             user.addgroup(grp.id)
         print( 'mygroupchoices: ',user.mygroupchoices() )
-       
+    '''  

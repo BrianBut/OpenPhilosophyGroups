@@ -2,12 +2,65 @@
 #from pathlib import Path
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
-from .forms import SelectActiveGroupForm #JoinGroupForm
+from .forms import SelectActiveGroupForm, NewGroupForm
 from .. import db
-from ..models import User, Group
+from ..models import User, Group, GroupDoes
 from ..decorators import member_required, admin_required, moderator_required
 from . import groups
 from ..loggingPA import logger
+
+
+# list all groups with links to join, apply, or leave
+
+@groups.route('groups', methods=['POST','GET'])
+@login_required
+def groups():
+    user=User.query.filter_by(id=current_user.id).first()
+    groups = Group.query.order_by('groupname').all()
+    todos = []
+    reqreg = []
+    meets = []
+    necessary = []
+    infos = []
+    others = []
+
+    for group in groups:
+        if group.requires_registration():
+            reqreg.append(group)
+        elif group.is_todo():
+            todos.append(group)
+        elif group.has_meetings():
+            meets.append(group)
+        elif group.is_necessary():
+            necessary.append(group)
+        elif group.is_info():
+            infos.append(group)
+        else:
+            others.append(group)
+    return render_template('groups/groups.html', necessary=necessary, reqreg=reqreg, meets=meets, others=others, infos=infos )
+    
+'''
+@groups.route( 'new_group', methods=['POST', 'GET'])
+@login_required
+def new_group():
+    form = NewGroupForm()
+    if request.method == 'POST' and form.validate():
+        groupname=form.groupname.data
+        if Group.query.filter_by(groupname=groupname).first():
+            flash(category='info', message='A group with the name {} already exists. You cannot form a new group with this name'.format(groupname))
+            logger.info("Group Exists so redirecting to new_group")
+            return redirect(url_for('groups.new_group'))
+        gp = Group(groupname=form.groupname.data, founder=current_user.id, category=0 )
+        if form.has_meetings:
+            gp.set( GroupDoes.MEETING )
+        if form.is_online_only:
+            gp.set( GroupDoes.ONLINE )
+        if form.requires_registration:
+            gp.set( GroupDoes.REGISTRATION )
+        db.session.add(gp)
+        db.session.commit() 
+        return redirect(url_for('main.home', gpid=gp.id))
+    return render_template('groups/new_group.html', form=form)
 
 # Select a group from those in user.groups
 @groups.route('select_active', methods=['POST', 'GET'])
@@ -20,26 +73,6 @@ def select_active():
     #logger.info('from form select_active choices: {}'.format(form.data['choices']))
     return render_template('groups/select_active.html', form=form)
 
-
-#list all groups with links to join, apply, or leave
-@groups.route('available_groups', methods=['POST','GET'])
-@login_required
-def available_groups():
-    user=User.query.filter_by(id=current_user.id).first()
-    # Do user-available groups
-    # Then do online only
-    # Add orfer_by clause
-    gps_online = Group.query.filter_by(category=str(8)).all()
-    print('gps_online: {}'.format( gps_online ))
-    # Then do other groups available groups
-    
-
-    
-    #logger.info( 'form.data.groups: {},  {}'.format( form.data['groups'], form.data['choices']))
-
-
-    return render_template('groups/available_groups.html', gps_online=gps_online )
-    '''
 
 @groups.route('select_active_group', methods=['POST','GET'])
 @login_required
@@ -56,7 +89,7 @@ def select_active():
     print('choices: ', form.selected_group.choices)
     if request.method == 'POST' and form.validate():
         logger.info('form.selected_group.data: {}'.format(form.selected_group.data))
-        user.current_group=form.selected_group.data
+        user.current_group=form.selected_group.dataapp/templates/manage/groups.html
         db.session.add( user )
         db.session.commit()
         return redirect(url_for('main.index'))

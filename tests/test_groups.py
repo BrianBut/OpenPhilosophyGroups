@@ -19,17 +19,32 @@ class UserModelTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_default_group(self):
-        group = Group(groupname = 'Phil')
+        group = Group(groupname = 'Phil', founder = 1)
         #print('groupname, ',group.groupname)
         self.assertTrue(group.groupname == 'Phil', group.category == GroupDoes.INFO) 
 
     def test_info_group(self):
-        group = Group(groupname = 'Phil', category = GroupDoes.INFO)
+        group = Group(groupname = 'Phil', founder=1, category = GroupDoes.INFO)
         self.assertTrue( group.is_info() )
-        self.assertFalse( group.is_online_only())
+        self.assertFalse( group.is_online())
 
     def test_todo_group(self):
-        group = Group(groupname = 'Phil', category = GroupDoes.TODO)
+        group = Group(groupname = 'Phil', founder=1, category = GroupDoes.TODO)
         self.assertTrue( group.is_todo())
         self.assertFalse( group.is_info() )
-        self.assertFalse( group.is_online_only())
+        self.assertFalse( group.is_online())
+
+    def test_set_category(self):
+        group = Group(groupname = 'Phil', founder=1, category = 0)
+        group.set(GroupDoes.ONLINE)
+        self.assertTrue(group.category == GroupDoes.ONLINE)
+        self.assertTrue(group.category == 4)
+
+    def test_set_category_or(self):
+        group = Group(groupname = 'Phil', founder=2, category = GroupDoes.ONLINE)
+        group.set(GroupDoes.MEETING)
+        group.set(GroupDoes.REGISTRATION)
+        #print('has_meetings: ', group.has_meetings())
+        self.assertTrue(group.has_meetings())
+        self.assertTrue(group.is_online())
+        self.assertTrue(group.requires_registration())
