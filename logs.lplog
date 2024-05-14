@@ -8,3 +8,105 @@
 11-May-24 07:31:05 - current_group 1
 11-May-24 08:18:03 - current_group 1
 12-May-24 05:08:15 - current_group 1
+13-May-24 15:22:56 - Received registration request from administrator_email@example.com
+13-May-24 15:22:56 - Attempting to send confirmation message to administrator_email@example.com
+13-May-24 15:24:59 - Login attempt from administrator_email@example.com
+13-May-24 15:24:59 - Login succeded for administrator_email@example.com
+13-May-24 15:25:00 - Attempting to confirm administrator_email@example.com
+13-May-24 15:25:00 - Account has been confirmed
+13-May-24 15:25:00 - current_group 1
+13-May-24 15:33:32 - current_group 1
+13-May-24 15:58:54 - current_group 1
+13-May-24 16:01:06 - current_group 1
+13-May-24 16:02:05 - current_group 1
+13-May-24 16:06:12 - redirecting for current_group 1
+13-May-24 16:09:31 - redirecting for current_group 1
+13-May-24 16:09:31 - still in index with current_group 1
+13-May-24 16:11:03 - redirecting for current_group 1
+13-May-24 16:12:06 - got group <Group 1>
+13-May-24 16:14:07 - got group <Group 1>
+13-May-24 16:15:33 - got group <Group 1>
+13-May-24 16:16:42 - got group <Group 1>
+13-May-24 18:54:02 - redirecting for current_group 1
+13-May-24 18:54:02 - got group <Group 1>
+13-May-24 20:09:00 - redirecting for current_group 1
+13-May-24 20:09:00 - got group <Group 1>
+13-May-24 21:48:30 - got group <Group 1>
+13-May-24 21:55:59 - redirecting for current_group 1
+13-May-24 21:55:59 - got group <Group 1>
+13-May-24 21:55:59 - info <Group 1>
+13-May-24 21:55:59 - info []
+13-May-24 21:56:14 - redirecting for current_group 1
+13-May-24 21:56:14 - got group <Group 1>
+13-May-24 21:56:14 - info <Group 1>
+13-May-24 21:56:14 - info []
+13-May-24 21:57:18 - got group <Group 1>
+13-May-24 21:57:18 - info group <Group 1>
+13-May-24 21:57:18 - info []
+13-May-24 21:59:10 - redirecting for current_group 1
+13-May-24 21:59:10 - got group <Group 1>
+13-May-24 21:59:10 - info group <Group 1>
+13-May-24 21:59:10 - info [<Info 1>]
+13-May-24 22:01:40 - got group <Group 1>
+13-May-24 22:01:40 - info group <Group 1>
+13-May-24 22:01:40 - info [<Info 1>]
+13-May-24 22:05:40 - got group <Group 1>
+13-May-24 22:05:40 - info group <Group 1>
+13-May-24 22:05:40 - info [<Info 1>]
+13-May-24 22:06:12 - got group <Group 1>
+13-May-24 22:06:12 - info group <Group 1>
+13-May-24 22:06:12 - info [<Info 1>]
+13-May-24 22:06:34 - redirecting for current_group 1
+13-May-24 22:06:34 - got group <Group 1>
+13-May-24 22:06:34 - info group <Group 1>
+13-May-24 22:06:34 - info [<Info 1>]
+13-May-24 22:07:08 - got group <Group 1>
+13-May-24 22:07:08 - info group <Group 1>
+13-May-24 22:07:08 - info [<Info 1>]
+13-May-24 22:09:27 - redirecting for current_group 1
+13-May-24 22:09:27 - got group <Group 1>
+13-May-24 22:09:27 - info group <Group 1>
+13-May-24 22:09:27 - info [<Info 1>]
+13-May-24 22:14:32 - got group <Group 1>
+13-May-24 22:14:32 - info group <Group 1>
+13-May-24 22:14:32 - info [<Info 1>]
+13-May-24 22:14:34 - info {'id': 1, 'group': 1, 'title': 'What Am I Writing', 'seq': None, 'content': '## Let Us See\r\n', 'author_id': 1, 'author_fullname': 'Adam Admin'}
+13-May-24 22:14:48 - info {'id': 1, 'group': 1, 'title': 'What Am I Writing', 'seq': None, 'content': '## Let Us See\r\n', 'author_id': 1, 'author_fullname': 'Adam Admin'}
+13-May-24 22:14:48 - redirecting for current_group 1
+13-May-24 22:14:49 - got group <Group 1>
+13-May-24 22:14:49 - info group <Group 1>
+13-May-24 22:14:49 - info [<Info 1>]
+13-May-24 22:15:30 - info {'id': 1, 'group': 1, 'title': 'What Am I Writing?', 'seq': None, 'content': 'Let Us See\r\n', 'author_id': 1, 'author_fullname': 'Adam Admin'}
+13-May-24 22:18:05 - info {'id': 1, 'group': 1, 'title': 'What Am I Writing?', 'seq': None, 'content': 'Let Us See\r\n', 'author_id': 1, 'author_fullname': 'Adam Admin'}
+13-May-24 22:18:05 - redirecting for current_group 1
+13-May-24 22:18:05 - got group <Group 1>
+13-May-24 22:18:05 - info group <Group 1>
+13-May-24 22:18:05 - info [<Info 1>]
+13-May-24 22:18:14 - info {'id': 1, 'group': 1, 'title': 'Public Philosophy Groups', 'seq': None, 'content': 'We aim be a place where people can discuss their Philosophy\r\n', 'author_id': 1, 'author_fullname': 'Adam Admin'}
+13-May-24 22:20:12 - info {'id': 1, 'group': 1, 'title': 'Public Philosophy Groups', 'seq': None, 'content': 'We aim be a place where people can discuss their Philosophy\r\n', 'author_id': 1, 'author_fullname': 'Adam Admin'}
+13-May-24 22:20:12 - redirecting for current_group 1
+13-May-24 22:20:12 - got group <Group 1>
+13-May-24 22:20:12 - info group <Group 1>
+13-May-24 22:20:12 - info [<Info 1>]
+13-May-24 22:24:02 - got group <Group 1>
+13-May-24 22:24:02 - info group <Group 1>
+13-May-24 22:24:02 - info [<Info 1>]
+13-May-24 22:24:08 - info {'id': 1, 'group': 1, 'title': 'Public Philosophy Groups', 'seq': None, 'content': 'We aim be a place where people can discuss whatever part of Philosophy interests them, and may be interesting to, and provoke a response from others.\r\n', 'author_id': 1, 'author_fullname': 'Adam Admin'}
+13-May-24 22:24:25 - still in index with current_group 1
+13-May-24 22:25:10 - Received registration request from brianjbutcher65@gmail.com
+13-May-24 22:25:10 - Attempting to send confirmation message to brianjbutcher65@gmail.com
+13-May-24 22:25:49 - Login attempt from brianjbutcher65@gmail.com
+13-May-24 22:25:49 - Login succeded for brianjbutcher65@gmail.com
+13-May-24 22:25:49 - Attempting to confirm brianjbutcher65@gmail.com
+13-May-24 22:25:49 - Account has been confirmed
+13-May-24 22:25:49 - redirecting for current_group 1
+13-May-24 22:25:50 - got group <Group 1>
+13-May-24 22:25:50 - info group <Group 1>
+13-May-24 22:25:50 - info [<Info 1>]
+13-May-24 22:26:02 - still in index with current_group 1
+13-May-24 22:26:15 - Login attempt from brianjbutcher65@gmail.com
+13-May-24 22:26:15 - Login succeded for brianjbutcher65@gmail.com
+13-May-24 22:26:15 - redirecting for current_group 1
+13-May-24 22:26:16 - got group <Group 1>
+13-May-24 22:26:16 - info group <Group 1>
+13-May-24 22:26:16 - info [<Info 1>]

@@ -4,7 +4,7 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
 from .forms import SelectActiveGroupForm #JoinGroupForm
 from .. import db
-from ..models import User, Group, Category
+from ..models import User, Group
 from ..decorators import member_required, admin_required, moderator_required
 from . import groups
 from ..loggingPA import logger

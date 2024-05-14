@@ -1,6 +1,6 @@
 # models.py
 from app import db
-from .mymodels.groupmodel import Group, Category, GroupDoes
+from .mymodels.groupmodel import Group, GroupDoes
 from .mymodels.maillistmodel import MailList
 from .mymodels.usermodel import Group, Permission, Role, User, AnonymousUser
 from .mymodels.topicmodel import Topic

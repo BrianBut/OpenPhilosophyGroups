@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block page_content %}
+<section>
+{{ gpid }}
+{{ info }}
+<div class="container-fluid">
+{% for inf in info: %}
+<h3>{{ inf['title']}}</h3>
+<p class="md">{{ inf['content'] }}</p>
+{% if current_user.id == inf.author_id %}
+<a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.edit_info', id=inf['id']) }}" role="button">Edit this Info Topic</a>
+{% endif %}
+{% endfor %}
+</div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="/static/scripts/mymarkup.js"></script>
+{% endblock %}

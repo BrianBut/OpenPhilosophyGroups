@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 #from .forms import EditTopicForm, DeleteTopicForm, EditProfileForm, NewCommentForm, EditCommentForm, NewTopicForm, EditTopicForm, EmailForm
 from .forms import InfoForm
 from .. import db
-from ..models import Topic, User, Role, Comment, MailList, Info, Group
+from ..models import Topic, User, Role, Comment, MailList, Info, Group, GroupDoes
 from ..decorators import member_required, admin_required, moderator_required
 from . import main
 from ..loggingPA import logger
@@ -14,12 +14,13 @@ from ..loggingPA import logger
 def index():
     if current_user.is_authenticated:
         current_group = User.query.get_or_404(current_user.id).current_group
-        logger.info('current_group {}'.format(current_group))
-        # divert to user group homepage
+        logger.info('redirecting for current_group {}'.format(current_group))
+        # divert to user group homepage for authenticated users
+        return( redirect( url_for('main.home', gpid=current_group )))
     else:
         current_group = 1
 
-    
+    logger.info('still in index with current_group {}'.format(current_group))
     topic = Info.query.filter_by(group=current_group).order_by('seq').all()
     return render_template('index.html', topic_dict=topic)
 
@@ -28,6 +29,33 @@ def index():
 
     #g = Group.query.get.filter
 
+@main.route('/home/<int:gpid>')
+@login_required
+def home( gpid ):
+    gp = Group.query.get_or_404(gpid)
+    logger.info("got group {}".format(gp))
+
+    # Todos only
+    if gp.category == GroupDoes.TODO:
+        return redirect(url_for('manage.todos', gpid=gp))
+
+    # Info topics only
+    elif gp.category == GroupDoes.INFO:
+       logger.info("info group {}".format(gp))
+       info = Info.query.filter_by(group=gpid).order_by('seq').all()
+       logger.info("info {}".format(info))
+       return render_template('home.html', gpid=gpid, info=info )
+    
+    '''
+    elif gp.has_meetings():
+        future_topics = Topic.query.filter_by(group=gpid).filter_by(published=True)
+        past_topics =
+        proposed_topics =
+
+    elif gp.is_online_only():
+        online_topics =
+    '''
+    return render_template('home.html', gpid=gpid, topic_dict='topic_dict' )
 
 ################################## info ######################################################################
 # 6 May 2024

@@ -1,7 +1,7 @@
 import os
 import click
 from app import create_app, db
-from app.models import User, Topic, Comment, MailList, Info, Category
+from app.models import User, Topic, Comment, MailList, Info
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'test')
 app = create_app(test_config=None)
