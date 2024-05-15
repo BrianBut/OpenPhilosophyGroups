@@ -10,6 +10,10 @@ class NewGroupForm(FlaskForm):
     requires_registration = BooleanField()
     submit = SubmitField('Submit')
 
+class DeleteGroupForm(FlaskForm):
+    groupname = StringField('Group Name')
+    submit = SubmitField('Submit')
+
 class SelectActiveGroupForm(FlaskForm):
     selected_group = RadioField(u'Group', coerce=str)
     submit = SubmitField('Submit')

@@ -2,7 +2,7 @@
 #from pathlib import Path
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
-from .forms import SelectActiveGroupForm, NewGroupForm
+from .forms import SelectActiveGroupForm, NewGroupForm, DeleteGroupForm
 from .. import db
 from ..models import User, Group, GroupDoes
 from ..decorators import member_required, admin_required, moderator_required
@@ -11,7 +11,7 @@ from ..loggingPA import logger
 
 @groups.route('groups')
 @login_required
-def groups():
+def opgroups():
     user=User.query.filter_by(id=current_user.id).first()
     groups = Group.query.order_by('groupname').all()
     categories = [ [], [], [], [], [], [] ]
@@ -38,15 +38,15 @@ def groups():
 
     return render_template('groups/groups.html', categories=categories )
 
-'''
-@opgroups.route( 'delete<int:grid>', methods=['POST','GET'])
+
+@groups.route( 'delete<int:grid>', methods=['POST','GET'])
 @login_required
 def delete(gpid):
     form = DeleteGroupForm()
     if request.method == 'POST' and form.validate():
         return redirect(url_for('group.group'))
     return render_template('groups/groups.html', form=form)
-'''
+
 '''
 @groups.route( 'new_group', methods=['POST', 'GET'])
 @login_required

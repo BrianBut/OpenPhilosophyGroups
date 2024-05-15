@@ -52,14 +52,14 @@
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href=" url_for('manage.topics') ">Reschedule Topics</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{{ url_for('groups.groups') }}">Groups</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('groups.opgroups') }}">Groups</a></li>
                 <li><hr class="dropdown-divider"></li>               
                 {% endif %}                
               </ul>
             </li>
             {% endif %} <!-- end moderator -->
             <li class="nav-item dropdown">
-              <a class="nav-link" href="{{ url_for('groups.groups') }}" role="button" >Groups</a>
+              <a class="nav-link" href="{{ url_for('groups.opgroups') }}" role="button" >Groups</a>
             </li> 
           </ul>
           {% endif %} <!-- end authenticated -->
