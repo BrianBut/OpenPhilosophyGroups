@@ -9,36 +9,44 @@ from ..decorators import member_required, admin_required, moderator_required
 from . import groups
 from ..loggingPA import logger
 
-
-# list all groups with links to join, apply, or leave
-
-@groups.route('groups', methods=['POST','GET'])
+@groups.route('groups')
 @login_required
 def groups():
     user=User.query.filter_by(id=current_user.id).first()
     groups = Group.query.order_by('groupname').all()
-    todos = []
-    reqreg = []
-    meets = []
-    necessary = []
-    infos = []
-    others = []
+    categories = [ [], [], [], [], [], [] ]
 
     for group in groups:
-        if group.requires_registration():
-            reqreg.append(group)
-        elif group.is_todo():
-            todos.append(group)
+        if group.is_todo():
+            group.cat = 'Todo'
+            categories[0].append(group)
+        elif group.requires_registration():
+            group.cat = 'Requires Registration and may be restricted'
+            categories[1].append(group)
         elif group.has_meetings():
-            meets.append(group)
+            group.cat = 'This Group has Meetings'
+            categories[2].append(group)
         elif group.is_necessary():
-            necessary.append(group)
+            group.cat = 'Necessary'
+            categories[3].append(group)
         elif group.is_info():
-            infos.append(group)
+            group.cat = 'Info'
+            categories[4].append(group)
         else:
-            others.append(group)
-    return render_template('groups/groups.html', necessary=necessary, reqreg=reqreg, meets=meets, others=others, infos=infos )
-    
+            group.cat = 'Information Only'
+            categories[5].append(group)
+
+    return render_template('groups/groups.html', categories=categories )
+
+'''
+@opgroups.route( 'delete<int:grid>', methods=['POST','GET'])
+@login_required
+def delete(gpid):
+    form = DeleteGroupForm()
+    if request.method == 'POST' and form.validate():
+        return redirect(url_for('group.group'))
+    return render_template('groups/groups.html', form=form)
+'''
 '''
 @groups.route( 'new_group', methods=['POST', 'GET'])
 @login_required
