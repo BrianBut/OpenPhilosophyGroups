@@ -24,46 +24,47 @@ def index():
     topic = Info.query.filter_by(group=current_group).order_by('seq').all()
     return render_template('index.html', topic_dict=topic)
 
-    #u = User.query.get_or_404(id).first()
-    #available = Group.get.filter_by(current_group)
-
-    #g = Group.query.get.filter
-
+# List all topics for specified group
 @main.route('/home/<int:gpid>')
 @login_required
-def home( gpid ):
-    gp = Group.query.get_or_404(gpid)
-    logger.info("/home got group {}".format(gp.groupname))
-    founder = ''
-    if gp.founder:
-        founder = User.get_fullname(gp.founder)
+def home(gpid):
+    # set user.current_group
+    current_user.current_group = gpid
+    db.session.add(current_user)
+    db.session.commit()
+    
+    topics = Topic.query.filter_by(group=gpid).order_by(Topic.discussion_datetime).all()
 
-    if gp.is_todo():
-        logger.info("/home todos got group {}".format(gp))
-        return redirect(url_for('manage.todos', gpid=gp))
-    
-    if gp.is_info():
-       logger.info("info group {}".format(gp))
-       info = Info.query.filter_by(group=gpid).order_by('seq').all()
-       logger.info("info {}".format(info))
-       return render_template('home.html', gpid=gpid, info=info )
-    
-    if gp.requires_registration():
-        pass
-    
-    if gp.has_meetings():
-        logger.info("/home has_meetings got group {}".format(gp))
-        future_topics = Topic.query.filter_by(group=gpid).filter_by(published=True)
-        #past_topics =
-        #proposed_topics =
+    tl = { 'proposed_topics':[], 'future_topics':[], 'past_topics':[], 'online_topics':[] }
 
-    # default online group
-    topic = Topic.query.filter_by(group=gp.id).first()
-    logger.info("/home default got group {}".format(gp))
-    return render_template('homeonline.html', gp=gp, topic=topic, founder=founder )
+    group = Group.query.get_or_404(gpid)
+    for topic in topics:
+        tt = topic.dump()
+        assert( isinstance(tt,dict))
+        assert(tt['venue'] in ['proposed','online','planned','past'])
+        tt['url'] = url_for('topics.topic', tid=topic.id )
+        if group.has_meetings():
+            logger.info('group {} has meetings'.format(group.id))
+            if tt['venue'] == 'proposed':
+                tl['proposed_topics'].append(tt)
+            elif tt['venue'] == 'online':
+                tl['online_topics'].append(tt)
+            elif tt['venue'] == 'planned':
+                tl['future_topics'].append(tt)
+            elif tt['venue'] == 'past':
+                tl['past_topics'].append(tt)
+            else: 
+                raise Exception("get_topics failed to find venue") 
+        else:
+            tl['online_topics'].append(tt)
+    
+    # If this group requires registration filter out
+    #print('opgroup: ',opgroup.dump())
+    #logger.info('gp.dump()'.format( opgroup))
+    return render_template('home.html', gp=gpid, tt_list=tl, meets=group.has_meetings() )
 
 ################################## info ######################################################################
-# 6 May 2024
+
 @main.route('/new_info', methods=['GET','POST'])
 @login_required
 @moderator_required

@@ -1,18 +1,51 @@
 {% extends "base.html" %}
 {% block page_content %}
 <section>
-{{ gpid }}
-{{ info }}
+{{ tt_list }}
+<p>meets, {{ meets }}</p>
+
 <div class="container-fluid">
-{% for inf in info: %}
-<h3>{{ inf['title']}}</h3>
-<p class="md">{{ inf['content'] }}</p>
-{% if current_user.id == inf.author_id %}
-<a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.edit_info', id=inf['id']) }}" role="button">Edit this Info Topic</a>
-{% endif %}
-{% endfor %}
+  {% if tt_list['future_topics']: %}
+  <div class="text-center">
+    <h2><strong>Coming Meetings</strong></h2>
+  </div>
+  {% for topic_dict in tt_list['future_topics']: %}
+    {% include 'topics/render_topic.html' %}
+  {% endfor %}
+  {% endif %}
+
+  {% if tt_list['past_topics']: %}
+  <div class="text-center">
+    <h2><strong>Past Meetings</strong></h2>
+  </div>
+  {% for topic_dict in tt_list['past_topics']: %}
+    {% include 'topics/render_topic.html' %}
+  {% endfor %}
+  {% endif %}
+
+  {% if tt_list['proposed_topics']: %}
+  <div class="text-center">
+    <h2><strong>Proposed Topics</strong></h2>
+  </div>
+  {% for topic_dict in tt_list['proposed_topics']: %}
+    {% include 'topics/render_topic.html' %}
+  {% endfor %}
+  {% endif %}
+
+  {% if meets and tt_list['online_topics'] %}
+  <div class="text-center">
+    <h2><strong>Online Topics</strong></h2>
+  </div>
+  {% endif %}
+
+  {% for topic_dict in tt_list['online_topics']: %}
+    {% include 'topics/render_topic.html' %}
+  {% endfor %}
+
+  <div class="container">
+    <a class="btn btn-primary btn-sm m-2" href=" url_for('main.newtopic')}}" role="button">Create a New Topic</a>
+  </div>
 </div>
-</section>
 {% endblock %}
 {% block scripts %}
 <script src="/static/scripts/mymarkup.js"></script>

@@ -89,7 +89,7 @@ def new_todo():
         todo.creation_datetime=datetime.now(tz=timezone.utc)
         db.session.add(todo)
         db.session.commit()
-        return redirect(url_for('manage.todos', gpid=todo.group))
+        return redirect(url_for('manage.todos'))
     form.group.data = current_user.current_group
     return render_template("manage/newtodo.html", form=form )
 
@@ -97,10 +97,10 @@ def new_todo():
 @manage.route('todos/<int:gpid>')
 @login_required
 @admin_required
-def todos(gpid):
-    notdone = Todos.notdone(gpid)
+def todos():
+    notdone = Todos.notdone()
     print( "notdone: ",notdone )
-    done = Todos.done(gpid)
+    done = Todos.done()
     print( "done: ",done )
     return render_template("manage/todos.html", notdone=notdone, done=done )
 

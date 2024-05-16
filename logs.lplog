@@ -115,3 +115,30 @@
 16-May-24 05:12:08 - redirecting for current_group 3
 16-May-24 05:12:08 - /home got group Cheese Cake
 16-May-24 05:12:08 - /home default got group <Group 3>
+16-May-24 05:47:22 - redirecting for current_group 1
+16-May-24 05:47:22 - /home got group Open Philosphy Groups
+16-May-24 05:47:22 - info group <Group 1>
+16-May-24 05:47:22 - info [<Info 1>]
+16-May-24 05:55:58 - redirecting for current_group 3
+16-May-24 05:55:58 - /opgroup got group Cheese Cake
+16-May-24 05:56:36 - /opgroup got group Tomato
+16-May-24 06:00:24 - redirecting for current_group 1
+16-May-24 06:02:35 - /opgroup got group Open Philosophy
+16-May-24 06:02:44 - /opgroup got group Tomato
+16-May-24 06:21:37 - redirecting for current_group 4
+16-May-24 06:27:55 - redirecting for current_group 4
+16-May-24 06:28:02 - /opgroup got group Tomatos
+16-May-24 06:29:33 - redirecting for current_group 5
+16-May-24 06:31:01 - /opgroup got group Cheese Cake
+16-May-24 06:32:26 - redirecting for current_group 3
+16-May-24 07:09:57 - /opgroup got group Open Philosphy Groups
+16-May-24 07:10:26 - /opgroup got group Tomato
+16-May-24 07:53:13 - redirecting for current_group 4
+16-May-24 07:56:53 - group 4 has meetings
+16-May-24 07:59:52 - /opgroup got group Tomatos
+16-May-24 08:01:55 - /opgroup got group Cheese Cake
+16-May-24 08:03:48 - group 4 has meetings
+16-May-24 08:55:00 - /opgroup got group Open Philosphy Groups
+16-May-24 08:58:15 - /opgroup got group Open Philosphy Groups
+16-May-24 09:16:31 - redirecting for current_group 1
+16-May-24 09:18:00 - group 4 has meetings

@@ -22,11 +22,11 @@ class Group(db.Model):
         db.session.add( group )
         db.session.commit()
     
-    #def set(self, gd):
-    #    d = int(gd)
-    #    category1 = self.category
-    #    self.category = int(self.category) | d 
-    #    print('D: {}, category: {}, int(self.category) or d {}'.format(d, category1, int(self.category) or d))
+    def set(self, gd):
+        d = int(gd)
+        category1 = self.category
+        self.category = int(self.category) | d 
+        print('D: {}, category: {}, int(self.category) or d {}'.format(d, category1, int(self.category) or d))
 
     def is_info(self):
         if GroupDoes.INFO & self.category:

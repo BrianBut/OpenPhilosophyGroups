@@ -10,7 +10,6 @@ from .usermodel import User
 class Todos(db.Model):
     __tablename__ = 'todos'
     id = db.Column(db.Integer, primary_key=True)
-    group = db.Column(db.Integer, default=1)
     content = db.Column(db.Text)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     creation_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))

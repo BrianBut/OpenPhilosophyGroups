@@ -73,7 +73,7 @@ def opgroup(gpid):
     # If this group requires registration filter out
     #print('opgroup: ',opgroup.dump())
     #logger.info('gp.dump()'.format( opgroup))
-    return render_template('groups/opgroup.html', gp=gp, tt_list=tl )
+    return render_template('home.html', gp=gp, tt_list=tl )
 
 # This may not be better reached from the group page! 
 @groups.route( 'delete<int:grid>', methods=['POST','GET'])

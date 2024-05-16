@@ -27,7 +27,7 @@
           <p>{{ c.cat }}</p>
         </div>
         <div class="col-2">
-          <a class="btn btn-primary btn-sm m-2" href={{ url_for('groups.opgroup', gpid=c.id ) }} role="button">Visit</a>
+          <a class="btn btn-primary btn-sm m-2" href={{ url_for('main.home', gpid=c.id ) }} role="button">Visit</a>
           {% if (c.founder == current_user.id) or (current_user.is_administrator()) %}
           <a class="btn btn-danger btn-sm m-2" href=" url_for('groups.delete', gpid=c.id ) ", role="button">Delete</a>
           {% endif %}
