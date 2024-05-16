@@ -4,7 +4,7 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
 from .forms import SelectActiveGroupForm, NewGroupForm, DeleteGroupForm
 from .. import db
-from ..models import User, Group, GroupDoes
+from ..models import User, Group, Topic, GroupDoes
 from ..decorators import member_required, admin_required, moderator_required
 from . import groups
 from ..loggingPA import logger
@@ -38,7 +38,44 @@ def opgroups():
 
     return render_template('groups/groups.html', categories=categories )
 
+# List all topics for specified group
+@groups.route('opgroup/<int:gpid>')
+@login_required
+def opgroup(gpid):
+    # set user.current_group
+    current_user.current_group = gpid
+    db.session.add(current_user)
+    db.session.commit()
 
+    gp = Group.query.get_or_404(gpid)
+    logger.info("/opgroup got group {}".format(gp.groupname))
+    
+    tl = { 'proposed_topics':[], 'future_topics':[], 'past_topics':[], 'online_topics':[] }
+    topics = Topic.query.filter_by(group=gpid).order_by(Topic.discussion_datetime).all()
+    for topic in topics:
+        tt = topic.dump()
+        assert( isinstance(tt,dict))
+        assert(tt['venue'] in ['proposed','online','planned','past'])
+        tt['url'] = url_for('topics.topic', tid=topic.id )
+        if tt['venue'] == 'proposed':
+            tl['proposed_topics'].append(tt)
+        elif tt['venue'] == 'online':
+            tl['online_topics'].append(tt)
+        elif tt['venue'] == 'planned':
+            tl['future_topics'].append(tt)
+        elif tt['venue'] == 'past':
+            tl['past_topics'].append(tt)
+        else: 
+            #print('venue is:', tt['venue'])
+            raise Exception("get_topics failed to find venue") 
+        #print(topic.discussion_datetime.strftime('%s'), tt['venue'] )
+
+    # If this group requires registration filter out
+    #print('opgroup: ',opgroup.dump())
+    #logger.info('gp.dump()'.format( opgroup))
+    return render_template('groups/opgroup.html', gp=gp, tt_list=tl )
+
+# This may not be better reached from the group page! 
 @groups.route( 'delete<int:grid>', methods=['POST','GET'])
 @login_required
 def delete(gpid):
@@ -91,7 +128,8 @@ def select_active():
     choices = []
     for group in allgroups:
         choices.append( (group.id, group.groupname) )
-    form = SelectActiveGroupForm( default= user.current_group) 
+    form = SelectActiveGroupForm( default= user.current_group) submit = SubmitField('Submit')
+
     form.selected_group.choices = choices
     #form.selected_group.default = str(user.current_group)
     print('choices: ', form.selected_group.choices)

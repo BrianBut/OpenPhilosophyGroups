@@ -1,13 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, BooleanField, EmailField, RadioField, IntegerField, SelectMultipleField
+from wtforms import StringField, SubmitField, TextAreaField, BooleanField, EmailField, RadioField, IntegerField, SelectMultipleField, HiddenField
 from wtforms.fields import DateField, TimeField, SelectField
 from wtforms.validators import DataRequired, Length
 
 class NewGroupForm(FlaskForm):
-    groupname = StringField('Group Name')
-    has_meetings = BooleanField()
+    groupname = StringField('The Name of Your New Group')
+    have_meetings = BooleanField()
     is_online_only = BooleanField()
     requires_registration = BooleanField()
+    founder = HiddenField()
     submit = SubmitField('Submit')
 
 class DeleteGroupForm(FlaskForm):

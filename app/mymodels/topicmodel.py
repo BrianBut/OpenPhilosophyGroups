@@ -47,6 +47,7 @@ class Topic(db.Model):
         return { "id":self.id, "group":self.group, "title":self.title, "summary":self.summary, "content":self.content, "published":self.published, "venue":self.discussion_venue(),
             "discussion_date":self.discussion_date(), "discussion_time":self.discussion_time(),  "author_id":self.author_id, "author_fullname":User.get_fullname(self.author_id) }
     
+    '''
     @staticmethod
     def get_topics( group ):
         tl = { 'proposed_topics':[], 'future_topics':[], 'past_topics':[], 'online_topics':[], 'private_topics':[], 'todo_topics':[], 'info_topics':[] }
@@ -71,3 +72,4 @@ class Topic(db.Model):
             else: 
                 raise Exception("get_topics() failed to find venue: {}".format(tt['venue']) ) 
         return tl
+    '''

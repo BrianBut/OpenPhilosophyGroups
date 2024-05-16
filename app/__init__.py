@@ -49,6 +49,9 @@ def create_app(test_config=None):
     from .groups import groups as groups_blueprint
     app.register_blueprint(groups_blueprint, url_prefix='/groups')
 
+    from .topics import topics as topics_blueprint
+    app.register_blueprint(topics_blueprint, url_prefix='/topics')
+
     from .manage import manage as manage_blueprint
     app.register_blueprint(manage_blueprint, url_prefix='/manage')
 
