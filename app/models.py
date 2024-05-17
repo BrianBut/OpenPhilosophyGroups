@@ -3,8 +3,7 @@ from app import db
 from .mymodels.groupmodel import Group, GroupDoes
 from .mymodels.maillistmodel import MailList
 from .mymodels.usermodel import Group, Permission, Role, User, AnonymousUser
-from .mymodels.topicmodel import Topic
-from .mymodels.commentmodel import Comment
+from .mymodels.topicmodel import Comment, Topic
 from .mymodels.infomodel import Info
 from .mymodels.todomodel import Todos
 

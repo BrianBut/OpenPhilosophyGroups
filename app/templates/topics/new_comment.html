@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block page_content %}
+<section>
+<div class="container-fluid">
+    <div class="container-sm">
+    {{ render_form(form) }}
+    </div>
+</div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="/static/scripts/mymarkup.js"></script>
+{% endblock %}

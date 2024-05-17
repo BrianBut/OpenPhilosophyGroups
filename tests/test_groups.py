@@ -26,25 +26,23 @@ class UserModelTestCase(unittest.TestCase):
     def test_info_group(self):
         group = Group(groupname = 'Phil', founder=1, category = GroupDoes.INFO)
         self.assertTrue( group.is_info() )
-        self.assertFalse( group.is_online())
+        self.assertFalse( group.is_necessary())
 
     def test_todo_group(self):
         group = Group(groupname = 'Phil', founder=1, category = GroupDoes.TODO)
         self.assertTrue( group.is_todo())
         self.assertFalse( group.is_info() )
-        self.assertFalse( group.is_online())
 
     def test_set_category(self):
         group = Group(groupname = 'Phil', founder=1, category = 0)
-        group.set(GroupDoes.ONLINE)
-        self.assertTrue(group.category == GroupDoes.ONLINE)
-        self.assertTrue(group.category == 4)
+        group.set(GroupDoes.NECESSARY)
+        self.assertTrue(group.category == GroupDoes.NECESSARY)
 
     def test_set_category_or(self):
-        group = Group(groupname = 'Phil', founder=2, category = GroupDoes.ONLINE)
+        group = Group(groupname = 'Phil', founder=2, category = GroupDoes.NECESSARY)
         group.set(GroupDoes.MEETING)
         group.set(GroupDoes.REGISTRATION)
         #print('has_meetings: ', group.has_meetings())
         self.assertTrue(group.has_meetings())
-        self.assertTrue(group.is_online())
+        self.assertTrue(group.requires_registration())
         self.assertTrue(group.requires_registration())

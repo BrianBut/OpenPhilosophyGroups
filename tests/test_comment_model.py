@@ -1,10 +1,10 @@
 import unittest
 from datetime import datetime, time
 from app import create_app, db
-from app.models import User, AnonymousUser, Topic, Role
+from app.models import User, AnonymousUser, Role, Comment
 
 
-class TopicModelTestCase(unittest.TestCase):
+class CommentModelTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
@@ -18,17 +18,18 @@ class TopicModelTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_title(self):
-        t = Topic(title="Test Topic")
-        self.assertTrue(t.title is not None)
+        t = Comment(content="Test content")
+        self.assertTrue(t.content == "Test content" )
 
     def test_creation_datetime(self):
-        t = Topic(title="Test Topic")
+        t = Comment(content="Test Topic")
         db.session.add(t)
         db.session.commit()
-        t2 = Topic.query.first()
+        t2 = Comment.query.first()
         #print("t.creation_datetime: {}".format(t2.creation_datetime))
         self.assertTrue(t.creation_datetime is not None)
 
+    '''
     def test_discussion_datetime(self):
         t = Topic(title="Test Topic")
         db.session.add(t)
@@ -89,14 +90,5 @@ class TopicModelTestCase(unittest.TestCase):
         self.assertTrue(t.content==content)
 
     #def test_markdown(self):
-
-    def test_admin_topic_author_full_name(self):
-        r = Role.query.filter_by(name='Administrator').first()
-        u = User(email='johnsmith@example.com', password='cat', name='Admin_Lee', role=r )
-        db.session.add(u)
-        db.session.flush()
-        topic=Topic(title="Test Author Fullname", author_id=u.id)
-        db.session.add(topic)
-        db.session.commit()
-        self.assertTrue( topic.author_fullname() == 'Admin Lee')
-        #self.assertTrue(topic.author_fullname == 'Admin_Lee')
+    '''
+    

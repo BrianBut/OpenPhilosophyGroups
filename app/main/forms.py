@@ -4,8 +4,6 @@ from wtforms.fields import DateField, TimeField, SelectField
 from wtforms.validators import DataRequired, Length
 
 '''
-TOPIC_CHOICES = [ (0, 'public'), (1, 'Online Only'), (2, 'Private') ]
-
 class EditProfileForm(FlaskForm):
     first_name = StringField('First Name', validators=[Length(0, 32)])
     last_name = StringField('Last Name', validators=[Length(0, 32)])
@@ -23,14 +21,9 @@ class InfoForm(FlaskForm):
     title = StringField('Title')
     content = TextAreaField('Content (You can use Markdown here)') 
     submit = SubmitField('Submit')
-'''
-class EditTopicForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    summary = TextAreaField('About This Topic')
-    content = TextAreaField('Content (You can use Markdown here)') 
-    published = SelectField( '', choices = TOPIC_CHOICES )
-    submit = SubmitField('Submit')
 
+
+'''
 # User editing a planned topic topic has date > min
 class EditPlannedTopicForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])

@@ -5,7 +5,7 @@ from flask_login import current_user
 from flask_login import login_required
 from .forms import RescheduleTopicForm, ConfirmDeleteForm, EditUserForm, NewGroupForm, EditGroupForm, TodoForm, ROLE_CHOICES
 from .. import db
-from ..models import Group, Topic, User, Role, Todos
+from ..models import Group, Topic, User, Role, Todos, MailList
 from ..decorators import admin_required, moderator_required
 from datetime import datetime, timezone
 from . import manage
@@ -85,7 +85,7 @@ def delete_topic():
 def new_todo():
     form = TodoForm()
     if request.method == 'POST' and form.validate():
-        todo = Todos(group=current_user.current_group,content=form.content.data,author_id=current_user.id, creation_datetime=datetime.now)
+        todo = Todos(content=form.content.data,author_id=current_user.id, creation_datetime=datetime.now)
         todo.creation_datetime=datetime.now(tz=timezone.utc)
         db.session.add(todo)
         db.session.commit()
@@ -94,7 +94,7 @@ def new_todo():
     return render_template("manage/newtodo.html", form=form )
 
 
-@manage.route('todos/<int:gpid>')
+@manage.route('todos')
 @login_required
 @admin_required
 def todos():
@@ -114,7 +114,7 @@ def mark_done( tdid ):
     #logger.info('todo marked_done: {}'.format( todo.dump()))
     db.session.add( todo )
     db.session.commit()
-    return redirect(url_for('manage.todos', gpid=todo.group))
+    return redirect(url_for('manage.todos'))
 
 @manage.route('mark_undone/<tdid>', methods=['POST','GET'])
 @login_required
@@ -125,7 +125,7 @@ def mark_undone( tdid ):
     logger.info('todo marked_unddone: {}'.format( todo.dump()))
     db.session.add( todo )
     db.session.commit()
-    return redirect(url_for('manage.todos', gpid=todo.group))
+    return redirect(url_for('manage.todos'))
 
 ###################### groups #############################
 # This is for admin use
@@ -174,4 +174,27 @@ def edit_group(id):
         db.session.commit()
         return redirect(url_for('manage.groups'))
     return render_template("manage/newgroup.html", form=form )
+
+    
+@manage.route('/setmeetingtime/<int:topic_id>', methods=['GET','POST'])
+@login_required
+@moderator_required
+def setmeetingtime(topic_id):
+    topic = Topic.query.filter_by(id=topic_id).first()
+    form = SetMeetingTimeForm( topic_id=topic_id )
+    if request.method == 'POST' and form.validate():
+        topic.discussion_datetime=datetime.combine(form.discussion_date.data, form.discussion_time.data)
+        db.session.add(topic)
+        db.session.commit()
+        return redirect( url_for('.topic', topic_id=topic_id))
+    form.discussion_datetime = topic.discussion_datetime
+    return render_template('setmeetingtime.html', form=form)
+
+######################################## Sundry #######################################
+@manage.route('/mailaddresses', methods=['GET','POST'])
+@login_required
+@moderator_required
+def mailaddresses():
+    addresses = MailList.query.order_by('email').all()
+    return render_template("mailaddresses.html", addresses=addresses)
 

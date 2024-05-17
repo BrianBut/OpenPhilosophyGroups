@@ -1,7 +1,26 @@
 from app import db
-from flask import url_for
-from datetime import datetime, timezone
 from .usermodel import User
+from datetime import datetime, timezone
+
+class Comment(db.Model):
+    __tablename__= 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text)
+    topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    creation_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
+    edit_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
+
+    def topic_title(self):
+        return Topic.query.get(self.topic_id).title
+    
+    def author_name(self):
+        return User.get_fullname(self.author_id)
+
+    def dump(self):
+        return { "id":self.id, "content":self.content, "topic_id":self.topic_id, "topic_title":self.topic_title(), "author_name":self.author_name() }
+
+
 
 class Topic(db.Model):
     __tablename__ = 'topics'
@@ -12,8 +31,9 @@ class Topic(db.Model):
     content = db.Column(db.Text)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     creation_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
+    last_edited_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
     discussion_datetime = db.Column(db.DateTime, default=datetime.min)
-    published = db.Column(db.Integer, default=0)
+    published = db.Column(db.Boolean, default=False)
 
     def discussion_date(self):
         if self.discussion_datetime == datetime.min:
@@ -47,29 +67,3 @@ class Topic(db.Model):
         return { "id":self.id, "group":self.group, "title":self.title, "summary":self.summary, "content":self.content, "published":self.published, "venue":self.discussion_venue(),
             "discussion_date":self.discussion_date(), "discussion_time":self.discussion_time(),  "author_id":self.author_id, "author_fullname":User.get_fullname(self.author_id) }
     
-    '''
-    @staticmethod
-    def get_topics( group ):
-        tl = { 'proposed_topics':[], 'future_topics':[], 'past_topics':[], 'online_topics':[], 'private_topics':[], 'todo_topics':[], 'info_topics':[] }
-        topics = Topic.query.filter_by(group=group).order_by(Topic.discussion_datetime).all()
-        for topic in topics:
-            tt = topic.dump()
-            tt['url'] = url_for('main.topic', topic_id=topic.id )
-            if tt['venue'] == 'private': 
-                tl['private_topics'].append(tt)
-            elif tt['venue'] == 'proposed':
-                tl['proposed_topics'].append(tt)
-            elif tt['venue'] == 'online':
-                tl['online_topics'].append(tt)
-            elif tt['venue'] == 'planned':
-                tl['future_topics'].append(tt)
-            elif tt['venue'] == 'past':
-                tl['past_topics'].append(tt)
-            elif tt['venue'] == 'todos':
-                tl['todo_topics'].append(tt)
-            elif tt['venue'] == 'info':
-                tl['info_topics'].append(tt)    
-            else: 
-                raise Exception("get_topics() failed to find venue: {}".format(tt['venue']) ) 
-        return tl
-    '''

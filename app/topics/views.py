@@ -1,8 +1,10 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
-from .forms import NewTopicForm, EditTopicForm
+from datetime import datetime, timezone
+from pathlib import Path
+from .forms import NewTopicForm, EditTopicForm, NewCommentForm
 from .. import db
-from ..models import User, Group, Topic
+from ..models import Group, Topic, Comment
 from ..decorators import member_required, admin_required, moderator_required
 from . import topics
 from ..loggingPA import logger
@@ -27,24 +29,52 @@ def new_topic():
 
 
 # Presents a form to edit a topic, both summary and content.
-# Limitations on summary
-@topics.route('edit_topic', methods=['POST', 'GET'])
+@topics.route('/edittopic/<int:id>', methods=['GET','POST'])
 @login_required
-def edit_topic(tid):
-    form = EditTopicForm()
-    return render_template('topics/edit_topic.html', form=form)
+def edittopic(id):
+    topic=Topic.query.get_or_404(id)
+    group = Group.query.get_or_404(current_user.current_group)
+    form=EditTopicForm(topic=topic)
+    if request.method == 'POST' and form.validate():
+        topic.title = form.title.data
+        topic.summary=form.summary.data
+        topic.content=form.content.data
+        topic.published=form.published.data
+        #print('setting content data to {}'.format(topic.content))
+        #print('setting published data to {}'.format(topic.published)) 
+        db.session.add(topic)
+        db.session.commit()
+        return redirect(url_for('.topic',tid=id))
+    form.title.data=topic.title
+    form.summary.data=topic.summary
+    form.content.data=topic.content
+    form.published.data = topic.published
+    return render_template('topics/edit_topic.html',form=form)
+
 
     
 # Presents summary, content and comments for a topic.
 @topics.route('topic/<int:tid>')
 @login_required
 def topic(tid):
-    return render_template('topics/topic.html')
+    t = Topic.query.get_or_404( tid )
+    t.author = t.author_fullname()
+    comments = Comment.query.filter_by(topic_id=tid).order_by('creation_datetime').all()
+    cds = []
+    for c in comments:
+        cds.append(c.dump())
+    #print( "cds: {}".format( cds ))
+    return render_template('topics/topic.html', topic=t, commentsd=cds )
 
 
-#lists all topics within the group, sorting by 'pending','proposed','online_only'
-@topics.route('topics')
+@topics.route( 'new_comment/<int:topic_id>', methods=['POST', 'GET'])
 @login_required
-def topics():
-    sorted_topics = []
-    return render_template('topics/topics.html', topics=sorted_topics)
+def new_comment(topic_id):
+    form = NewCommentForm()
+    if request.method == 'POST' and form.validate():
+        comment = Comment(content=form.content.data, topic_id=topic_id, author_id=current_user.id, edit_datetime=datetime.now(tz=timezone.utc))
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('topics.topic', tid=topic_id ))
+    return render_template('topics/new_comment.html', form=form)
+

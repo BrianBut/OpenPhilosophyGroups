@@ -19,22 +19,22 @@ class Todos(db.Model):
         return User.get_fullname(self.author_id) 
     
     def dump(self):
-        return { "id":self.id, "group":self.group, "content":self.content, 
+        return { "id":self.id, "content":self.content, 
           "author_id":self.author_id, 
           "creation_datetime":easydate(self.creation_datetime), 
           "completion_datetime":easydate(self.completion_datetime )}
           #"author_fullname":User.get_fullname(self.author_id) }
     
     @staticmethod
-    def notdone(group_id):
+    def notdone():
         rv = []
-        for todo in Todos.query.filter_by( group = group_id, completion_datetime = datetime.max).order_by('creation_datetime').all():
+        for todo in Todos.query.filter_by( completion_datetime = datetime.max).order_by('creation_datetime').all():
             rv.append( todo.dump() )
         return rv
 
     @staticmethod
-    def done(group_id):
+    def done():
         rv = []
-        for todo in Todos.query.filter_by( group = group_id).filter( Todos.completion_datetime !=  datetime.max).order_by('creation_datetime').limit(100).all():
+        for todo in Todos.query.filter( Todos.completion_datetime !=  datetime.max).order_by('creation_datetime').limit(100).all():
             rv.append( todo.dump() )
         return rv

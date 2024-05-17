@@ -142,3 +142,68 @@
 16-May-24 08:58:15 - /opgroup got group Open Philosphy Groups
 16-May-24 09:16:31 - redirecting for current_group 1
 16-May-24 09:18:00 - group 4 has meetings
+16-May-24 15:48:18 - still in index with current_group 1
+16-May-24 15:48:34 - Login attempt from brianjbutcher65@gmail.com
+16-May-24 15:48:34 - Login succeded for brianjbutcher65@gmail.com
+16-May-24 15:48:34 - redirecting for current_group 3
+16-May-24 16:44:46 - redirecting for current_group 3
+16-May-24 20:04:31 - redirecting for current_group 2
+16-May-24 20:09:12 - redirecting for current_group 2
+16-May-24 20:29:04 - group 4 has meetings
+17-May-24 05:19:17 - still in index with current_group 1
+17-May-24 05:20:08 - still in index with current_group 1
+17-May-24 05:21:32 - Received registration request from administrator_email@example.com
+17-May-24 05:21:33 - Attempting to send confirmation message to administrator_email@example.com
+17-May-24 05:21:56 - Attempting to confirm administrator_email@example.com
+17-May-24 05:21:56 - Account has been confirmed
+17-May-24 05:21:56 - redirecting for current_group 1
+17-May-24 05:27:53 - redirecting for current_group 1
+17-May-24 05:28:43 - redirecting for current_group 1
+17-May-24 05:43:16 - Title Exists so redirecting to new_group
+17-May-24 06:15:19 - redirecting for current_group 1
+17-May-24 06:26:16 - still in index with current_group 1
+17-May-24 06:27:34 - Received registration request from administrator_email@example.com
+17-May-24 06:27:34 - Attempting to send confirmation message to administrator_email@example.com
+17-May-24 06:28:00 - Attempting to confirm administrator_email@example.com
+17-May-24 06:28:00 - Account has been confirmed
+17-May-24 06:28:00 - redirecting for current_group 1
+17-May-24 06:38:48 - redirecting for current_group 1
+17-May-24 06:49:52 - redirecting for current_group 1
+17-May-24 06:51:08 - Title Exists so redirecting to new_group
+17-May-24 07:02:42 - Received registration request from brianjbutcher65@gmail.com
+17-May-24 07:02:43 - Attempting to send confirmation message to brianjbutcher65@gmail.com
+17-May-24 07:03:19 - Login attempt from brianjbutcher65@gmail.com
+17-May-24 07:03:19 - Login succeded for brianjbutcher65@gmail.com
+17-May-24 07:03:19 - Attempting to confirm brianjbutcher65@gmail.com
+17-May-24 07:03:19 - Account has been confirmed
+17-May-24 07:03:19 - redirecting for current_group 1
+17-May-24 07:26:42 - redirecting for current_group 1
+17-May-24 08:21:30 - redirecting for current_group 1
+17-May-24 08:31:29 - still in index with current_group 1
+17-May-24 08:32:38 - Received registration request from administrator_email@example.com
+17-May-24 08:32:39 - Attempting to send confirmation message to administrator_email@example.com
+17-May-24 08:33:06 - Attempting to confirm administrator_email@example.com
+17-May-24 08:33:06 - Account has been confirmed
+17-May-24 08:33:06 - redirecting for current_group 1
+17-May-24 08:43:48 - redirecting for current_group 1
+17-May-24 08:52:46 - still in index with current_group 1
+17-May-24 08:53:39 - Received registration request from administrator_email@example.com
+17-May-24 08:53:40 - Attempting to send confirmation message to administrator_email@example.com
+17-May-24 08:54:08 - Attempting to confirm administrator_email@example.com
+17-May-24 08:54:08 - Account has been confirmed
+17-May-24 08:54:08 - redirecting for current_group 1
+17-May-24 09:02:28 - redirecting for current_group 1
+17-May-24 14:54:12 - still in index with current_group 1
+17-May-24 14:55:44 - Received registration request from administrator_email@example.com
+17-May-24 14:55:45 - Attempting to send confirmation message to administrator_email@example.com
+17-May-24 14:56:12 - Attempting to confirm administrator_email@example.com
+17-May-24 14:56:12 - Account has been confirmed
+17-May-24 14:56:12 - redirecting for current_group 1
+17-May-24 16:59:19 - still in index with current_group 1
+17-May-24 16:59:47 - Received registration request from brianjbutcher65@gmail.com
+17-May-24 16:59:47 - Attempting to send confirmation message to brianjbutcher65@gmail.com
+17-May-24 17:00:36 - Login attempt from brianjbutcher65@gmail.com
+17-May-24 17:00:37 - Login succeded for brianjbutcher65@gmail.com
+17-May-24 17:00:37 - Attempting to confirm brianjbutcher65@gmail.com
+17-May-24 17:00:37 - Account has been confirmed
+17-May-24 17:00:37 - redirecting for current_group 1
