@@ -65,7 +65,6 @@ class Role(db.Model):
         return '<Role %r>' % self.name
 
 
-# User.groups is a comma seperated string of groups
 class User(UserMixin, db.Model):
 
     __tablename__ = "users"
@@ -76,8 +75,10 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
     last_seen = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
     name = db.Column(db.String(32),nullable=False)
-    groups = db.Column(db.String, nullable=False, default='1')
     current_group = db.Column(db.Integer, default=1)
+    groups = db.relationship('Group', backref='founder', lazy='dynamic')
+    topics = db.relationship('Topic', backref='author', lazy='dynamic')
+
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

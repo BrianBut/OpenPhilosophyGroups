@@ -25,7 +25,7 @@ class APITestCase(unittest.TestCase):
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
-    
+
     '''
     def test_404(self):
         response = self.client.get( '/wrong/url', headers=self.get_api_headers('email', 'password'))

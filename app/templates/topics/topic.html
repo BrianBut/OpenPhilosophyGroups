@@ -7,7 +7,7 @@
       <p class="card-text md">{{ topic.summary }}</p> 
       <p class="card-text">{{ topic.content }}</p> 
       <div class="clearfix">
-        <div class="float-end">proposed by: {{ topic.author }}</div>
+        <div class="float-end">proposed by: {{ topic.author.fullname() }}</div>
       </div>
       {% if ( current_user.id == topic.author_id ) or current_user.is_moderator() %}
         <!-- past topics cannot be edited -->

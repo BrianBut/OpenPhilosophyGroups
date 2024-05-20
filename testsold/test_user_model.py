@@ -142,7 +142,7 @@ class UserModelTestCase(unittest.TestCase):
         u = User(email='puss@warm.mews', name='cooking_fat', password='cat')
         db.session.add(u)
         db.session.commit()
-        time.sleep(1)
+        time.sleep(2)
         last_seen_before = u.last_seen
         u.ping()
         self.assertTrue(u.last_seen > last_seen_before)

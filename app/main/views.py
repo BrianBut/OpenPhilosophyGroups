@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 #from .forms import EditTopicForm, DeleteTopicForm, EditProfileForm, NewCommentForm, EditCommentForm, NewTopicForm, EditTopicForm, EmailForm
 from .forms import InfoForm
 from .. import db
-from ..models import Topic, User, Role, Comment, MailList, Info, Group, GroupDoes
+from ..models import Topic, User, Role, Comment, MailList, Info, Group
 from ..decorators import member_required, admin_required, moderator_required
 from . import main
 from ..loggingPA import logger
@@ -34,37 +34,21 @@ def home(gpid):
     db.session.commit()
     
     topics = Topic.query.filter_by(group=gpid).order_by(Topic.discussion_datetime).all()
-
-    tl = { 'proposed_topics':[], 'future_topics':[], 'past_topics':[], 'online_topics':[] }
-
-    group = Group.query.get_or_404(gpid)
-    for topic in topics:
-        tt = topic.dump()
-        assert( isinstance(tt,dict))
-        assert(tt['venue'] in ['proposed','online','planned','past'])
-        tt['url'] = url_for('topics.topic', tid=topic.id )
-        if group.has_meetings():
-            logger.info('group {} has meetings'.format(group.id))
-            if tt['venue'] == 'proposed':
-                tl['proposed_topics'].append(tt)
-            elif tt['venue'] == 'online':
-                tl['online_topics'].append(tt)
-            elif tt['venue'] == 'planned':
-                tl['future_topics'].append(tt)
-            elif tt['venue'] == 'past':
-                tl['past_topics'].append(tt)
-            else: 
-                raise Exception("get_topics failed to find venue") 
-        else:
-            tl['online_topics'].append(tt)
     
+    ttlist = []
+    if topics:
+        for topic in topics:
+            #tt = topic.dump()
+            #print('tt: ',tt)
+            #assert( isinstance(tt,dict))
+            ttlist.append( topic.dump() )
     # If this group requires registration filter out
     #print('opgroup: ',opgroup.dump())
     #logger.info('gp.dump()'.format( opgroup))
-    return render_template('home.html', gp=gpid, tt_list=tl, meets=group.has_meetings() )
+    return render_template('home.html', gp=gpid, tt=ttlist )
 
 ################################## info ######################################################################
-
+'''
 @main.route('/new_info', methods=['GET','POST'])
 @login_required
 @moderator_required
@@ -93,3 +77,4 @@ def edit_info(id):
     form.title.data=info.title
     form.content.data=info.content
     return render_template('newinfo.html',form=form)
+'''

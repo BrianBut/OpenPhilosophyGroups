@@ -3,7 +3,6 @@ from wtforms import StringField, SubmitField, TextAreaField, BooleanField, Email
 from wtforms.fields import DateField, TimeField, SelectField
 from wtforms.validators import DataRequired, Length
 
-#TOPIC_CHOICES = [ (0, 'public'), (1, 'Online Only'), (2, 'Private') ]
 
 class NewTopicForm(FlaskForm):
     group = HiddenField()

@@ -1,5 +1,6 @@
 from app import db
 from .usermodel import User
+from .groupmodel import Group
 from datetime import datetime, timezone
 
 class Comment(db.Model):
@@ -11,11 +12,11 @@ class Comment(db.Model):
     creation_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
     edit_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
 
-    def topic_title(self):
-        return Topic.query.get(self.topic_id).title
+    #def topic_title(self):
+    #    return Topic.query.get(self.topic_id).title
     
     def author_name(self):
-        return User.get_fullname(self.author_id)
+       return User.get_fullname(self.author_id)
 
     def dump(self):
         return { "id":self.id, "content":self.content, "topic_id":self.topic_id, "topic_title":self.topic_title(), "author_name":self.author_name() }
@@ -25,7 +26,7 @@ class Comment(db.Model):
 class Topic(db.Model):
     __tablename__ = 'topics'
     id = db.Column(db.Integer, primary_key=True)
-    group = db.Column(db.Integer, default=1)
+    group = db.Column(db.Integer, db.ForeignKey('groups.id'))
     title = db.Column(db.String(255))
     summary = db.Column(db.Text)
     content = db.Column(db.Text)

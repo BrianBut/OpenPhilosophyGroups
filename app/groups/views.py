@@ -2,41 +2,30 @@
 #from pathlib import Path
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
-from .forms import SelectActiveGroupForm, NewGroupForm, DeleteGroupForm
+from .forms import NewGroupForm
 from .. import db
-from ..models import User, Group, Topic, GroupDoes
+from ..models import User, Group, Category, Topic
 from ..decorators import member_required, admin_required, moderator_required
 from . import groups
 from ..loggingPA import logger
 
+'''
+@groups.route('categories')
+@login_required
+def opgroups():
+    categories = Category.query.order_by('id').all()
+    print('categories: ',categories)
+    return render_template('groups/groups.html', categories=categories )
+'''
+
+# List all groups with options to join
 @groups.route('groups')
 @login_required
 def opgroups():
-    user=User.query.filter_by(id=current_user.id).first()
-    groups = Group.query.order_by('groupname').all()
-    categories = [ [], [], [], [], [], [] ]
-
-    for group in groups:
-        if group.is_todo():
-            group.cat = 'Todo'
-            categories[0].append(group)
-        elif group.requires_registration():
-            group.cat = 'Requires Registration and may be restricted'
-            categories[1].append(group)
-        elif group.has_meetings():
-            group.cat = 'This Group has Meetings'
-            categories[2].append(group)
-        elif group.is_necessary():
-            group.cat = 'Necessary'
-            categories[3].append(group)
-        elif group.is_info():
-            group.cat = 'Info'
-            categories[4].append(group)
-        else:
-            group.cat = 'Information Only'
-            categories[5].append(group)
-
-    return render_template('groups/groups.html', categories=categories )
+    categories = Category.query.order_by('id').all()
+    print('categories: ',categories)
+    groups = Group.query.group_by(Group.category_id).all()
+    return render_template('groups/groups.html', groups=groups, categories=categories )
 
 # List all topics for specified group
 @groups.route('opgroup/<int:gpid>')
@@ -84,29 +73,34 @@ def delete(gpid):
         return redirect(url_for('group.group'))
     return render_template('groups/groups.html', form=form)
 
-'''
+
 @groups.route( 'new_group', methods=['POST', 'GET'])
 @login_required
 def new_group():
+    categories = Category.query.filter( Category.description != None).all()
+    nncategories = [ c for c in categories if c.description ]
+    #print( 'nncategories', nncategories )
+    choices = []
+    for c in nncategories:
+        choices.append( [ str(c.id),c.description] )
+    #print('choices: ', choices )
     form = NewGroupForm()
+    form.category.choices = choices
     if request.method == 'POST' and form.validate():
-        groupname=form.groupname.data
-        if Group.query.filter_by(groupname=groupname).first():
+        if Group.query.filter_by(groupname=form.groupname.data).first():
             flash(category='info', message='A group with the name {} already exists. You cannot form a new group with this name'.format(groupname))
             logger.info("Group Exists so redirecting to new_group")
             return redirect(url_for('groups.new_group'))
-        gp = Group(groupname=form.groupname.data, founder=current_user.id, category=0 )
-        if form.has_meetings:
-            gp.set( GroupDoes.MEETING )
-        if form.is_online_only:
-            gp.set( GroupDoes.ONLINE )
-        if form.requires_registration:
-            gp.set( GroupDoes.REGISTRATION )
+        print('groupname: ', form.groupname.data)
+        print('founder: ', current_user.id)
+        print('category_id: ', form.category.data)
+        gp = Group(groupname=form.groupname.data, founder=current_user, category_id=form.category.data )
+        print( "group: ",gp )
         db.session.add(gp)
         db.session.commit() 
         return redirect(url_for('main.home', gpid=gp.id))
     return render_template('groups/new_group.html', form=form)
-
+'''
 # Select a group from those in user.groups
 @groups.route('select_active', methods=['POST', 'GET'])
 @login_required

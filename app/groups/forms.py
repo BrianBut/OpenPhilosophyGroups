@@ -5,12 +5,11 @@ from wtforms.validators import DataRequired, Length
 
 class NewGroupForm(FlaskForm):
     groupname = StringField('The Name of Your New Group')
-    have_meetings = BooleanField()
-    is_online_only = BooleanField()
-    requires_registration = BooleanField()
+    category = SelectField('What Kind of Group')
     founder = HiddenField()
     submit = SubmitField('Submit')
 
+'''
 class DeleteGroupForm(FlaskForm):
     groupname = StringField('Group Name')
     submit = SubmitField('Submit')
@@ -18,7 +17,7 @@ class DeleteGroupForm(FlaskForm):
 class SelectActiveGroupForm(FlaskForm):
     selected_group = RadioField(u'Group', coerce=str)
     submit = SubmitField('Submit')
-'''   
+
 class JoinGroupForm(FlaskForm):
     groups = SelectMultipleField('OpenGroups', choices=[] )
     submit = SubmitField('Submit')

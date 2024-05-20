@@ -16,12 +16,11 @@ from ..loggingPA import logger
 def new_topic():
     form = NewTopicForm()
     if request.method == 'POST' and form.validate():
-        title = form.title.data
-        if Topic.query.filter_by(group=current_user.current_group).first():
-            flash(category='info', message='A topic with this title ({}) already exists. You cannot form a new topic with this title'.format(title))
-            logger.info("Title Exists so redirecting to new_group")
-            return redirect(url_for('topics.new_topic'))
-        topic = Topic(group=current_user.current_group, title=title, summary=form.summary.data, author_id=current_user.id )
+        #if Topic.query.filter_by(group=current_user.current_group).first():
+        #    flash(category='info', message='A topic with this title ({}) already exists. You cannot form a new topic with this title'.format(title))
+        #    logger.info("Title Exists so redirecting to new_group")
+        #    return redirect(url_for('topics.new_topic'))
+        topic = Topic(group=current_user.current_group, title=form.title.data, summary=form.summary.data, author=current_user )
         db.session.add(topic)
         db.session.commit()
         return redirect(url_for('topics.topic', tid=topic.id ))
@@ -58,7 +57,6 @@ def edittopic(id):
 @login_required
 def topic(tid):
     t = Topic.query.get_or_404( tid )
-    t.author = t.author_fullname()
     comments = Comment.query.filter_by(topic_id=tid).order_by('creation_datetime').all()
     cds = []
     for c in comments:
@@ -72,9 +70,10 @@ def topic(tid):
 def new_comment(topic_id):
     form = NewCommentForm()
     if request.method == 'POST' and form.validate():
-        comment = Comment(content=form.content.data, topic_id=topic_id, author_id=current_user.id, edit_datetime=datetime.now(tz=timezone.utc))
+        topic = Topic.query.get_or_404(topic.id)
+        comment = Comment(content=form.content.data, topic=topic, author=current_user, edit_datetime=datetime.now(tz=timezone.utc))
         db.session.add(comment)
         db.session.commit()
-        return redirect(url_for('topics.topic', tid=topic_id ))
+        return redirect(url_for('topics.topic', tid=topic.id ))
     return render_template('topics/new_comment.html', form=form)
 

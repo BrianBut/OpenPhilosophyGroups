@@ -1,7 +1,7 @@
 import os
 import click
 from app import create_app, db
-from app.models import User, Topic, Comment, MailList, Info, Group, GroupDoes
+from app.models import User, Topic, Comment, MailList, Info, Group, Category
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'test')
 app = create_app(test_config=None)
@@ -9,7 +9,7 @@ app = create_app(test_config=None)
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, User=User, Topic=Topic, Comment=Comment, MailList=MailList, Info=Info, Group=Group, GroupDoes=GroupDoes)
+    return dict(db=db, User=User, Topic=Topic, Comment=Comment, MailList=MailList, Info=Info, Group=Group)
 
 
 @app.cli.command()
