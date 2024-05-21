@@ -273,3 +273,30 @@
 20-May-24 13:13:23 - Title Exists so redirecting to new_group
 20-May-24 13:16:52 - Title Exists so redirecting to new_group
 20-May-24 13:22:23 - redirecting for current_group 1
+20-May-24 17:29:05 - redirecting for current_group 1
+20-May-24 17:30:50 - redirecting for current_group 1
+20-May-24 17:33:56 - redirecting for current_group 1
+20-May-24 17:34:16 - redirecting for current_group 1
+20-May-24 17:36:35 - redirecting for current_group 1
+21-May-24 07:01:18 - still in index with current_group 1
+21-May-24 07:02:35 - Received registration request from admistrator@my.philosophy.group
+21-May-24 07:02:36 - Attempting to send confirmation message to admistrator@my.philosophy.group
+21-May-24 07:02:59 - Attempting to confirm admistrator@my.philosophy.group
+21-May-24 07:02:59 - Account has been confirmed
+21-May-24 07:02:59 - redirecting for current_group 1
+21-May-24 07:04:01 - still in index with current_group 1
+21-May-24 07:04:03 - still in index with current_group 1
+21-May-24 07:04:40 - Received registration request from brianjbutcher65@gmail.com
+21-May-24 07:04:41 - Attempting to send confirmation message to brianjbutcher65@gmail.com
+21-May-24 07:05:15 - Login attempt from brianjbutcher65@gmail.com
+21-May-24 07:05:16 - Login succeded for brianjbutcher65@gmail.com
+21-May-24 07:05:16 - Attempting to confirm brianjbutcher65@gmail.com
+21-May-24 07:05:16 - Account has been confirmed
+21-May-24 07:05:16 - redirecting for current_group 1
+21-May-24 07:39:31 - redirecting for current_group 2
+21-May-24 07:40:03 - redirecting for current_group 1
+21-May-24 07:40:59 - redirecting for current_group 1
+21-May-24 07:41:17 - redirecting for current_group 2
+21-May-24 17:16:51 - redirecting for current_group 1
+21-May-24 17:17:07 - redirecting for current_group 2
+21-May-24 17:29:25 - redirecting for current_group 2

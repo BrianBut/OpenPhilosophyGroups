@@ -189,7 +189,7 @@ class User(UserMixin, db.Model):
     def addgroup(self, gp ):
         if not self.groups:
             self.groups='1'  # Mandatory Group
-        print('user: {},  groups: {}'.format(self.name, self.groups))
+        #print('user: {},  groups: {}'.format(self.name, self.groups))
         if not gp in self.mygrouplist():
             g = str( self.groups )
             self.groups = g + ',' + str(gp)

@@ -30,4 +30,10 @@ class UserModelTestCase(unittest.TestCase):
         c = Category.query.all()
         self.assertTrue( c is not None) 
 
-    
+    def test_group_has_meetings(self):
+        Category.insert_categories()
+        category = Category.query.first()
+        group = Group(groupname = 'Phil', category = category)
+        self.assertTrue('Online Only' in group.category.description )
+        self.assertFalse('meet' in group.category.description )
+        

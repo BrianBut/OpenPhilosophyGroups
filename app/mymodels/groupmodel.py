@@ -31,7 +31,6 @@ class Group(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     topics = db.relationship('Topic', backref='creator', lazy='dynamic')
 
-
     @staticmethod
     def insert_default_group():
         group = Group(groupname='Open Philosphy Groups', category_id=10 )

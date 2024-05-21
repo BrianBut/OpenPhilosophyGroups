@@ -1,9 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
-#from .forms import EditTopicForm, DeleteTopicForm, EditProfileForm, NewCommentForm, EditCommentForm, NewTopicForm, EditTopicForm, EmailForm
-from .forms import InfoForm
+from .forms import EditTopicForm, DeleteTopicForm, NewCommentForm, EditCommentForm, NewTopicForm, EditTopicForm
 from .. import db
 from ..models import Topic, User, Role, Comment, MailList, Info, Group
 from ..decorators import member_required, admin_required, moderator_required
@@ -24,28 +23,92 @@ def index():
     topic = Info.query.filter_by(group=current_group).order_by('seq').all()
     return render_template('index.html', topic_dict=topic)
 
+
 # List all topics for specified group
 @main.route('/home/<int:gpid>')
 @login_required
 def home(gpid):
-    # set user.current_group
-    current_user.current_group = gpid
+    group = Group.query.get(gpid)
+    current_user.current_group = group.id
     db.session.add(current_user)
     db.session.commit()
+
+    # If the group has meetings order by discussion_datetime, Info prioriy undecided
+    if 'meet' in group.category.description:
+        topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).order_by(Topic.discussion_datetime).all() ]
+    elif 'Info' in group.category.description:
+        topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).order_by(Topic.discussion_datetime).all() ]
+    else:
+        topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).all() ]
+
+    return render_template('home.html', gp=gpid, topiclist=topiclist )
     
-    topics = Topic.query.filter_by(group=gpid).order_by(Topic.discussion_datetime).all()
+
+@main.route('/new_topic', methods=['GET', 'POST'])  
+@login_required  
+def new_topic():
+    form = NewTopicForm()
+    if request.method == 'POST' and form.validate():
+        # form validator needs to check title is unique
+        #if Topic.query.filter_by(group=current_user.current_group).first():
+        #    flash(category='info', message='A topic with this title ({}) already exists. You cannot form a new topic with this title'.format(title))
+        #    logger.info("Title Exists so redirecting to new_group")
+        #    return redirect(url_for('topics.new_topic'))
+        topic = Topic(group=current_user.current_group, title=form.title.data, summary=form.summary.data, author=current_user )
+        db.session.add(topic)
+        db.session.commit()
+        return redirect(url_for('main.topic', tid=topic.id ))
+    return render_template('/new_topic.html', form=form)
+
+
+# Presents a form to edit a topic, both summary and content.
+@main.route('/edit_topic/<int:id>', methods=['GET','POST'])
+@login_required
+def edit_topic(id):
+    topic=Topic.query.get_or_404(id)
+    group = Group.query.get_or_404(current_user.current_group)
+    form=EditTopicForm(topic=topic)
+    if request.method == 'POST' and form.validate():
+        topic.title = form.title.data
+        topic.summary=form.summary.data
+        topic.content=form.content.data
+        topic.published=form.published.data
+        topic.last_edited_datetime=datetime.now(tz=timezone.utc)
+        db.session.add(topic)
+        db.session.commit()
+        return redirect(url_for('.topic',tid=id))
+    form.title.data=topic.title
+    form.summary.data=topic.summary
+    form.content.data=topic.content
+    form.published.data = topic.published
+    return render_template('/edit_topic.html',form=form)
+
     
-    ttlist = []
-    if topics:
-        for topic in topics:
-            #tt = topic.dump()
-            #print('tt: ',tt)
-            #assert( isinstance(tt,dict))
-            ttlist.append( topic.dump() )
-    # If this group requires registration filter out
-    #print('opgroup: ',opgroup.dump())
-    #logger.info('gp.dump()'.format( opgroup))
-    return render_template('home.html', gp=gpid, tt=ttlist )
+# Presents summary, content and comments for a topic.
+@main.route('/topic/<int:tid>')
+@login_required
+def topic(tid):
+    t = Topic.query.get_or_404( tid )
+    comments = Comment.query.filter_by(topic_id=tid).order_by('creation_datetime').all()
+    cds = []
+    for c in comments:
+        cds.append(c.dump())
+    #print( "cds: {}".format( cds ))
+    return render_template('/topic.html', topic=t, commentsd=cds )
+
+
+@main.route( 'new_comment/<int:topic_id>', methods=['POST', 'GET'])
+@login_required
+def new_comment(topic_id):
+    form = NewCommentForm()
+    if request.method == 'POST' and form.validate():
+        topic = Topic.query.get_or_404(topic.id)
+        comment = Comment(content=form.content.data, topic=topic, author=current_user, edit_datetime=datetime.now(tz=timezone.utc))
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('main.topic', tid=topic.id ))
+    return render_template('main/new_comment.html', form=form)
+
 
 ################################## info ######################################################################
 '''

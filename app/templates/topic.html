@@ -5,14 +5,14 @@
     <div class="card-body">
       <h4 class="card-title">{{ topic.title }}</h4>
       <p class="card-text md">{{ topic.summary }}</p> 
-      <p class="card-text">{{ topic.content }}</p> 
+      <p class="card-text md">{{ topic.content }}</p> 
       <div class="clearfix">
         <div class="float-end">proposed by: {{ topic.author.fullname() }}</div>
       </div>
       {% if ( current_user.id == topic.author_id ) or current_user.is_moderator() %}
         <!-- past topics cannot be edited -->
       <div>
-          <a class="btn btn-primary btn-sm m-2" href="{{ url_for('topics.edittopic', id=topic.id )}}" role="button">Edit This Topic</a>
+          <a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.edit_topic', id=topic.id )}}" role="button">Edit This Topic</a>
       </div>
       {% endif %}
       {% if current_user.is_moderator() %}
@@ -28,9 +28,9 @@
   <!-- <p>comment }}</p> -->
   <div class="card">
     <div class="card-body">
-      <div class="card-text"> {{ comment["content"] }} </div>
+      <div class="card-text md"> {{ comment["content"] }} </div>
       <div class="clearfix">
-        <div class="float-end">comment by: {{ comment["author_name"] }}</div>
+        <div class="float-end md">comment by: {{ comment["author_name"] }}</div>
       </div>
       {% if current_user.is_moderator() or (current_user.id==comment.author_id) %}
         <a class="btn btn-primary btn-sm m-2" href="url_for('main.editcomment', comment_id=comment.id )}}" role="button">Edit This Comment</a>
@@ -42,7 +42,7 @@
 
 {% if current_user.id: %}
 <div class="container">
-  <a class="btn btn-primary btn-sm m-2" href="{{ url_for('topics.new_comment', topic_id=topic.id ) }}">Add a new Comment</a>
+  <a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.new_comment', topic_id=topic.id ) }}">Add a new Comment</a>
 </div>
 {% endif %}
 {% endblock %}

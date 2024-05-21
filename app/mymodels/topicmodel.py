@@ -27,7 +27,7 @@ class Topic(db.Model):
     __tablename__ = 'topics'
     id = db.Column(db.Integer, primary_key=True)
     group = db.Column(db.Integer, db.ForeignKey('groups.id'))
-    title = db.Column(db.String(255))
+    title = db.Column(db.String(255), unique = True )
     summary = db.Column(db.Text)
     content = db.Column(db.Text)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
