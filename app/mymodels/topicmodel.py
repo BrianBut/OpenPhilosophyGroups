@@ -12,25 +12,19 @@ class Comment(db.Model):
     creation_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
     edit_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
 
-    #def topic_title(self):
-    #    return Topic.query.get(self.topic_id).title
-    
-    def author_name(self):
-       return User.get_fullname(self.author_id)
-
     def dump(self):
-        return { "id":self.id, "content":self.content, "topic_id":self.topic_id, "topic_title":self.topic_title(), "author_name":self.author_name() }
-
+        return { "id":self.id, "content":self.content, "topic_id":self.topic.id, "topic_title":self.topic.title, "author_name":self.author.fullname() }
 
 
 class Topic(db.Model):
     __tablename__ = 'topics'
     id = db.Column(db.Integer, primary_key=True)
-    group = db.Column(db.Integer, db.ForeignKey('groups.id'))
     title = db.Column(db.String(255), unique = True )
+    group = db.Column(db.Integer, db.ForeignKey('groups.id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    comments = db.relationship('Comment', backref='topic', lazy='dynamic')
     summary = db.Column(db.Text)
     content = db.Column(db.Text)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     creation_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
     last_edited_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
     discussion_datetime = db.Column(db.DateTime, default=datetime.min)

@@ -78,6 +78,7 @@ class User(UserMixin, db.Model):
     current_group = db.Column(db.Integer, default=1)
     groups = db.relationship('Group', backref='founder', lazy='dynamic')
     topics = db.relationship('Topic', backref='author', lazy='dynamic')
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
 
     def __init__(self, **kwargs):

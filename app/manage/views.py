@@ -12,6 +12,7 @@ from . import manage
 
 from ..loggingPA import logger
 
+# List all users
 @manage.route('/users')
 @login_required
 @admin_required
@@ -20,7 +21,7 @@ def users():
     for user in users:
         user.role_name = ROLE_CHOICES[ user.role_id][1]
     return render_template("manage/users.html", users=users)
-
+'''
 @manage.route('/manage/delete_user/<int:id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -76,7 +77,7 @@ def reschedule( id ):
 @admin_required
 def delete_topic():
     return render_template("index.html")
-
+'''
 ####################### todo_topics #######################
 
 @manage.route("/newtodo",methods=['GET','POST'])
@@ -135,7 +136,7 @@ def mark_undone( tdid ):
 #def groups():
 #    groups = Group.query.order_by(Group.groupname).all()
 #    return render_template("manage/groups.html", groups=groups)
-
+'''
 @manage.route("/groupmembership/<int:gpid>")
 @login_required
 @admin_required
@@ -175,7 +176,7 @@ def edit_group(id):
         return redirect(url_for('manage.groups'))
     return render_template("manage/newgroup.html", form=form )
 
-    
+''' 
 @manage.route('/setmeetingtime/<int:topic_id>', methods=['GET','POST'])
 @login_required
 @moderator_required

@@ -36,9 +36,17 @@ def home(gpid):
     # If the group has meetings order by discussion_datetime, Info prioriy undecided
     if 'meet' in group.category.description:
         topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).order_by(Topic.discussion_datetime).all() ]
+        return render_template('home.html', gp=gpid, topiclist=topiclist )
+    
+    elif 'nline' in group.category.description:
+        topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).all() ]
+        return render_template('home.html', gp=gpid, topiclist=topiclist )
+
     elif 'Info' in group.category.description:
         topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).order_by(Topic.discussion_datetime).all() ]
-    else:
+        return  render_template('info.html', gp=gpid, topiclist=topiclist )
+    
+    elif 'Help' in group.category.description:
         topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).all() ]
 
     return render_template('home.html', gp=gpid, topiclist=topiclist )
@@ -102,16 +110,16 @@ def topic(tid):
 def new_comment(topic_id):
     form = NewCommentForm()
     if request.method == 'POST' and form.validate():
-        topic = Topic.query.get_or_404(topic.id)
-        comment = Comment(content=form.content.data, topic=topic, author=current_user, edit_datetime=datetime.now(tz=timezone.utc))
+        topic_id = topic_id
+        comment = Comment(content=form.content.data, topic_id=topic_id, author_id=current_user.id, edit_datetime=datetime.now(tz=timezone.utc))
         db.session.add(comment)
         db.session.commit()
-        return redirect(url_for('main.topic', tid=topic.id ))
-    return render_template('main/new_comment.html', form=form)
+        return redirect(url_for('main.topic', tid=topic_id ))
+    return render_template('/new_comment.html', form=form)
 
 
 ################################## info ######################################################################
-'''
+
 @main.route('/new_info', methods=['GET','POST'])
 @login_required
 @moderator_required
@@ -140,4 +148,4 @@ def edit_info(id):
     form.title.data=info.title
     form.content.data=info.content
     return render_template('newinfo.html',form=form)
-'''
+
