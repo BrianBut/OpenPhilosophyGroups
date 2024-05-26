@@ -100,9 +100,7 @@ def new_todo():
 @admin_required
 def todos():
     notdone = Todos.notdone()
-    print( "notdone: ",notdone )
     done = Todos.done()
-    print( "done: ",done )
     return render_template("manage/todos.html", notdone=notdone, done=done )
 
 
@@ -112,7 +110,6 @@ def todos():
 def mark_done( tdid ):
     todo = Todos.query.get( tdid )
     todo.completion_datetime = datetime.now(tz=timezone.utc)
-    #logger.info('todo marked_done: {}'.format( todo.dump()))
     db.session.add( todo )
     db.session.commit()
     return redirect(url_for('manage.todos'))
