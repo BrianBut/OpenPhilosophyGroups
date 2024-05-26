@@ -30,6 +30,7 @@
         <div class="col-2">
           <a class="btn btn-primary btn-sm m-2" href={{ url_for('main.home', gpid=g.id ) }} role="button">Visit</a>
           {% if (g.founder == current_user) or (current_user.is_administrator()) %}
+          <a class="btn btn-danger btn-sm m-2" href="{{ url_for('groups.edit_group_preamble', gpid=g.id ) }}", role="button">Edit Preamble</a>
           <a class="btn btn-danger btn-sm m-2" href=" url_for('groups.delete', gpid=c.id ) ", role="button">Delete</a>
           {% endif %}
         </div>

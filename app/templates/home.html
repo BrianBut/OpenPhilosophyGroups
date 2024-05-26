@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 {% block page_content %}
 <section>
-<div class="container-fluid">
-<!-- display group info -->
-{% for info in infos %}
-  {{ info.content }}
-{% endfor %}
-
+<div class="container">
+  <h1>{{ group.groupname }}</h1>
+  <div class="container md">{{ group.preamble }}</div>
+</div>
 <!-- List planned topics( if any ) -->
 {% for topic in topiclist: %}
 <div class="container mt-3">

@@ -1,10 +1,12 @@
 {% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
 {% block page_content %}
 <section>
-    <div class="container">
-      <h1>{{ group.groupname }}</h1>
-      <div class="container md">{{ group.preamble }}</div>
+<div class="container-fluid">
+    <div class="container-sm">
+    {{ render_form(form) }}
     </div>
+</div>
 </section>
 {% endblock %}
 {% block scripts %}

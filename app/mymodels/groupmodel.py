@@ -27,6 +27,7 @@ class Group(db.Model):
     __tablename__ = 'groups'
     id = db.Column(db.Integer, primary_key=True)
     groupname = db.Column(db.String(128), unique=True, nullable=False )
+    preamble = db.Column(db.Text)
     founder_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     topics = db.relationship('Topic', backref='creator', lazy='dynamic')

@@ -1,8 +1,8 @@
-#from datetime import datetime
+from datetime import datetime, timezone
 #from pathlib import Path
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
-from .forms import NewGroupForm
+from .forms import NewGroupForm, EditGroupForm
 from .. import db
 from ..models import User, Group, Category, Topic
 from ..decorators import member_required, admin_required, moderator_required
@@ -100,6 +100,34 @@ def new_group():
         db.session.commit() 
         return redirect(url_for('main.home', gpid=gp.id))
     return render_template('groups/new_group.html', form=form)
+
+
+# Only an administrator can change the founder of a group
+
+# Once a group has been created only the founder(or admin) can change the title or preamble
+@groups.route( 'edit_group_preamble<int:gpid>', methods=['POST','GET'])
+@login_required
+def edit_group_preamble( gpid ):
+    group = Group.query.get_or_404(gpid)
+    if ( group.founder.id != current_user.id) and (current_user.is_administrator()):
+        flash( category='Warning', message='You do not have permission to edit this preamble')
+        return redirect(url_for('main.home', gpid=group.id))
+    logger.info("group founder or admin editing group")
+
+    form = EditGroupForm()
+    if request.method == 'POST' and form.validate():
+        group.groupname = form.groupname.data
+        group.preamble = form.preamble.data
+        group.edit_datetime=datetime.now(tz=timezone.utc)
+        db.session.add(group)
+        db.session.commit()
+        return redirect(url_for('main.home', gpid=gpid ))
+    
+    form.groupname.data = group.groupname
+    form.preamble.data = group.preamble
+
+    return render_template('groups/edit_group_preamble.html', form=form)
+
 '''
 # Select a group from those in user.groups
 @groups.route('select_active', methods=['POST', 'GET'])

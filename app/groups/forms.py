@@ -9,6 +9,14 @@ class NewGroupForm(FlaskForm):
     founder = HiddenField()
     submit = SubmitField('Submit')
 
+class EditGroupForm(FlaskForm):
+    groupname = StringField('The Name of Your Group')
+    preamble = TextAreaField('Preamble')
+    founder = HiddenField()
+    submit = SubmitField('Submit')
+
+
+
 '''
 class DeleteGroupForm(FlaskForm):
     groupname = StringField('Group Name')

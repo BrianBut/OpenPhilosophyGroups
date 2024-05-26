@@ -13,14 +13,10 @@ from ..loggingPA import logger
 def index():
     if current_user.is_authenticated:
         current_group = User.query.get_or_404(current_user.id).current_group
-    #    logger.info('redirecting for current_group {}'.format(current_group))
-        # divert to user group homepage for authenticated users
-    #    return( redirect( url_for('main.home', gpid=current_group )))
     else:
-        current_group = 1 
+        current_group = Group.query.get_or_404(1)
 
-    info = Info.query.filter_by(group_id=current_group).order_by('priority').first()
-    return render_template('index.html', info=info)
+    return render_template('index.html', group=current_group)
 
 
 # List all topics for specified group
@@ -33,9 +29,9 @@ def home(gpid):
     db.session.commit()
 
     # if the group has 'preamble' info, display them
-    infos = Info.query.filter_by(info_category=1).filter_by(group_id=group.id).order_by('priority').all()
-    for info in infos:
-        print('info: ',info)
+    #infos = Info.query.filter_by(info_category=1).filter_by(group_id=group.id).order_by('priority').all()
+    #for info in infos:
+    #    print('info: ',info)
 
     # If the group has meetings order by discussion_datetime, Info prioriy undecided
     if 'meet' in group.category.description:
@@ -44,7 +40,7 @@ def home(gpid):
     
     elif 'nline' in group.category.description:
         topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).all() ]
-        return render_template('home.html', gp=gpid, topiclist=topiclist )
+        return render_template('home.html', group=group, topiclist=topiclist )
 
     elif 'Info' in group.category.description:
         topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).order_by(Topic.discussion_datetime).all() ]
@@ -55,7 +51,7 @@ def home(gpid):
 
     logger.info('no topiclist found for group {} with description {}'.format(group, group.category.description))
 
-    return render_template('home.html', gp=gpid, infos=infos, topiclist=topiclist )
+    return render_template('home.html', group=group, topiclist=topiclist )
     
 
 @main.route('/new_topic', methods=['GET', 'POST'])  
