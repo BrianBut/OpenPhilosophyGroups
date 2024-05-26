@@ -3,31 +3,33 @@
 <div class="container-fluid">
     <h3 class="text-center">Groups</h3>
     <div class="row">
-      <div class="col-1">
-        <h5>id</h5>
-      </div>
       <div class="col-2">
         <h5>Group Name</h5>
       </div>
-      <div class="col-7">
+      <div class="col-6">
         <h5>Category</h5>
+      </div>
+      <div class="col-2">
+        <h5>Founder</h5>
       </div>
     </div>
 
     {% for g in groups %}
       <div class="row">
-        <div class="col-1">
-          <p>{{g.id }}</p>
-        </div>
         <div class="col-2">
           <p>{{ g.groupname }}</p>
         </div>
-        <div class="col-7">
+        <div class="col-6">
           <p>{{ g.category.description }}</p>
         </div>
         <div class="col-2">
+          {% if g.founder.is_administrator() == False %}
+          <p>{{ g.founder.fullname() }}</p>
+          {% endif %}
+        </div>
+        <div class="col-2">
           <a class="btn btn-primary btn-sm m-2" href={{ url_for('main.home', gpid=g.id ) }} role="button">Visit</a>
-          {% if (g.founder == current_user.id) or (current_user.is_administrator()) %}
+          {% if (g.founder == current_user) or (current_user.is_administrator()) %}
           <a class="btn btn-danger btn-sm m-2" href=" url_for('groups.delete', gpid=c.id ) ", role="button">Delete</a>
           {% endif %}
         </div>

@@ -3,6 +3,28 @@ from .usermodel import User
 from .groupmodel import Group
 from datetime import datetime, timezone
 
+# Other categories may be added to the end of the list, but the order must not be changed
+InfoCategoryChoices=[('1','preamble'),('2','group help'),('3','site help'),('4','software_about'),('5','open_philosopy_about')]
+
+class Info(db.Model):
+    __tablename__= 'infos'
+    __table_args__ = (
+        db.UniqueConstraint('info_category', 'group_id', 'priority', name='unique_component_commit'),
+    )
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text)
+    info_category = db.Column(db.Integer)
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    priority = db.Column(db.Integer, default=1 )
+
+    @staticmethod
+    def insert_default_info():
+        info = Info(content='Open Philosphy Groups', info_category = 1, group_id = 1, owner_id = 1)
+        db.session.add( info )
+        db.session.commit()
+    
+
 class Comment(db.Model):
     __tablename__= 'comments'
     id = db.Column(db.Integer, primary_key=True)
@@ -13,7 +35,7 @@ class Comment(db.Model):
     edit_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))
 
     def dump(self):
-        return { "id":self.id, "content":self.content, "topic_id":self.topic.id, "topic_title":self.topic.title, "author_name":self.author.fullname() }
+        return { "id":self.id, "content":self.content, "topic_id":self.topic.id, "topic_title":self.topic.title, "author_id":self.author.id, "author_name":self.author.fullname() }
 
 
 class Topic(db.Model):
@@ -23,6 +45,7 @@ class Topic(db.Model):
     group = db.Column(db.Integer, db.ForeignKey('groups.id'))
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='topic', lazy='dynamic')
+   
     summary = db.Column(db.Text)
     content = db.Column(db.Text)
     creation_datetime = db.Column(db.DateTime, default=datetime.now(tz=timezone.utc))

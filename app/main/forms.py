@@ -11,8 +11,12 @@ class NewTopicForm(FlaskForm):
     published = SelectField( '', choices=TOPIC_CHOICES, default=0 )
     submit = SubmitField('Submit')
 '''
+class NewInfoForm(FlaskForm):
+    content = TextAreaField('Content (You can use Markdown here)') 
+    info_category = SelectField( 'new info category',coerce=int )
+    submit = SubmitField('Submit')
+
 class InfoForm(FlaskForm):
-    title = StringField('Title')
     content = TextAreaField('Content (You can use Markdown here)') 
     submit = SubmitField('Submit')
 
@@ -42,7 +46,7 @@ class NewCommentForm(FlaskForm):
     submit = SubmitField('Submit')
     
 class InfoForm(FlaskForm):
-    title = StringField('Title')
+    #title = StringField('Title')
     content = TextAreaField('Content (You can use Markdown here)') 
     submit = SubmitField('Submit')
 
@@ -64,6 +68,8 @@ class NewCommentForm(FlaskForm):
     submit = SubmitField('Submit')
 '''
 class EditCommentForm(FlaskForm):
+    author_id = HiddenField()
+    topic_id = HiddenField()
     content = TextAreaField('Content') 
     submit = SubmitField('Submit')
 

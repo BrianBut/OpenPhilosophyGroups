@@ -26,7 +26,7 @@ class TopicInfoApiView(BaseApiView):
     #CreateSchema = TodoSchema
     #PatchSchema = TodoSchema
     #UpdateSchema = TodoSchema
-    searchable_columns = [Info.title]
+    #searchable_columns = [Info.title]
 
 # This is the existing api blueprint where all other routes are registered.
 api = Blueprint("v1_api", __name__, url_prefix="/api")

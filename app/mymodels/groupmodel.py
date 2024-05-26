@@ -30,10 +30,11 @@ class Group(db.Model):
     founder_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     topics = db.relationship('Topic', backref='creator', lazy='dynamic')
+    infos = db.relationship('Info', backref='group', lazy='dynamic')
 
     @staticmethod
     def insert_default_group():
-        group = Group(groupname='Open Philosphy Groups', category_id=10 )
+        group = Group(groupname='Open Philosphy Groups', founder_id = 1, category_id=10 )
         db.session.add( group )
         db.session.commit()
     

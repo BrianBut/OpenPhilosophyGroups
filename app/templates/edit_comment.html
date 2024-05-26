@@ -1,9 +1,12 @@
 {% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
 {% block page_content %}
-{{ info }}
 <section>
 <div class="container-fluid">
-<p class="md">{{ info.content }}</p>
+    <div class="container-sm">
+    <h5>Editing comment "{{ title }}"</h5>
+    {{ render_form(form) }}
+    </div>
 </div>
 </section>
 {% endblock %}

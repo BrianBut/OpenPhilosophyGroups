@@ -2,6 +2,12 @@
 {% block page_content %}
 <section>
 <div class="container-fluid">
+<!-- display group info -->
+{% for info in infos %}
+  {{ info.content }}
+{% endfor %}
+
+<!-- List planned topics( if any ) -->
 {% for topic in topiclist: %}
 <div class="container mt-3">
   <div class="card">
@@ -28,8 +34,8 @@
         {% if (uid == topic.author_id) or current_user.is_moderator(): %}
         <a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.edit_topic', id=topic['id'] )}}" role="button">Edit</a>
         {% endif %}
-        {% if (current_user.is_moderator()): %}
-        <a class="btn btn-warning btn-sm m-2" href="{{ url_for('main.setmeetingtime', tid=topic['id'] )}}" role="button">Set Time</a>
+        {% if (current_user.is_moderator() and 'meet' in topic.group.description): %}
+        <a class="btn btn-warning btn-sm m-2" href="{{ url_for('manage.setmeetingtime', topic_id=topic['id'] )}}" role="button">Set Time</a>
         {% endif %}
       </div>
     </div>
