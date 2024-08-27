@@ -52,7 +52,4 @@ def create_app(test_config=None):
     from .manage import manage as manage_blueprint
     app.register_blueprint(manage_blueprint, url_prefix='/manage')
 
-    from .api import api as api_blueprint
-    app.register_blueprint(api_blueprint, url_prefix='/api')
-
     return app
