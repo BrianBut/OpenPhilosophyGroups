@@ -41,9 +41,8 @@
             {% include "base_dd_moderator.html" %}
             {% include "base_dd_admin.html" %}
           </ul>
-          
-
           {% endif %} <!-- end authenticated -->
+
         </div>
         <ul class="nav navbar-nav" style="float:right;">
           {% if current_user.is_authenticated %}

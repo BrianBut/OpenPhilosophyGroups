@@ -1,5 +1,5 @@
-{% if current_user.is_administrator() %} <!--  Start administrator -->
-<li class="nav-item dropdown"></li>
+{% if current_user.is_administrator %} <!--  Start administrator -->
+<li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle btn-warning" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
     <ul class="dropdown-menu">
 
@@ -12,7 +12,6 @@
         <li><a class="dropdown-item" href="{{ url_for('main.edit_info', id=1 ) }}">Edit Main Info</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href=" url_for('manage.topics') ">Reschedule Topics</a></li>
-        <li><hr class="dropdown-divider"></li>    
     </ul>
 </li>
 {% endif %} <!-- end administrator --> 
