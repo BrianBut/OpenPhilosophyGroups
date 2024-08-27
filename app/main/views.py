@@ -27,24 +27,22 @@ def home(gpid):
     current_user.current_group = group.id
     db.session.add(current_user)
     db.session.commit()
-
+    #group = Group.query.get(current_user.current_group)
     # if the group has 'preamble' info, display them
     #infos = Info.query.filter_by(info_category=1).filter_by(group_id=group.id).order_by('priority').all()
     #for info in infos:
     #    print('info: ',info)
+    print( 'groupname: ', group.groupname )
 
     # If the group has meetings order by discussion_datetime, Info prioriy undecided
     if 'meet' in group.category.description:
         topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).order_by(Topic.discussion_datetime).all() ]
-        return render_template('home.html', gp=gpid, topiclist=topiclist )
     
     elif 'nline' in group.category.description:
         topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).all() ]
-        return render_template('home.html', group=group, topiclist=topiclist )
 
     elif 'Info' in group.category.description:
         topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).order_by(Topic.discussion_datetime).all() ]
-        return  render_template('home.html', gp=gpid, topiclist=topiclist )
     
     elif 'Necessary' in group.category.description:
         topiclist = [ topic.dump() for topic in Topic.query.filter_by(group=gpid).order_by(Topic.creation_datetime).all() ]

@@ -88,7 +88,7 @@ def new_group():
     form.category.choices = choices
     if request.method == 'POST' and form.validate():
         if Group.query.filter_by(groupname=form.groupname.data).first():
-            flash(category='info', message='A group with the name {} already exists. You cannot form a new group with this name'.format(groupname))
+            flash(category='info', message='A group with this name {} already exists. You cannot form a new group with this name')
             logger.info("Group Exists so redirecting to new_group")
             return redirect(url_for('groups.new_group'))
         print('groupname: ', form.groupname.data)
