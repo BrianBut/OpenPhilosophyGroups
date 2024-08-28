@@ -161,3 +161,5 @@ class UserModelTestCase(unittest.TestCase):
         author = User.query.get(1)
         #print("author: ",author)
         self.assertTrue(User.get_fullname(author.id) == 'cooking fat')
+
+    
