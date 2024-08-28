@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
-from .forms import EditTopicForm, DeleteTopicForm, NewCommentForm, EditCommentForm, NewTopicForm, EditTopicForm, InfoForm, NewInfoForm
+from .forms import EditTopicForm, DeleteTopicForm, NewCommentForm, EditCommentForm, DeleteCommentForm, NewTopicForm, EditTopicForm, InfoForm, NewInfoForm
 from .. import db
 from ..models import Topic, User, Role, Comment, MailList, Info, Group, InfoCategoryChoices
 from ..decorators import member_required, admin_required, moderator_required
@@ -158,6 +158,21 @@ def edit_comment(comment_id):
     form.content.data = comment.content
     title = comment.topic.title
     return render_template('/edit_comment.html', form=form, title=title)
+
+
+@main.route( 'delete_comment/<int:comment_id>', methods=['POST', 'GET'])
+@login_required
+def delete_comment(comment_id):
+    form = DeleteCommentForm()
+    comment = Comment.query.get_or_404(comment_id)
+    if request.method == 'POST' and form.validate():
+        Comment.query.filter(Comment.id == comment_id).delete()
+        db.session.commit()
+        flash(category='inform', message='Comment {} deleted'.format(comment.id))
+        return redirect(url_for('main.topic', tid=comment.topic_id ))
+    form.content.data = comment.content
+    return render_template('/delete_comment.html', form=form, comment=comment)
+    
 
 ################################## info ######################################################################
 

@@ -14,6 +14,7 @@
       <div>
           <a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.edit_topic', id=topic.id )}}" role="button">Edit This Topic</a>
       </div>
+
       {% endif %}
       {% if current_user.is_moderator() %}
         <a class="btn btn-danger btn-sm m-2" href="{{ url_for('main.delete_topic', tid=topic.id )}}" role="button">Delete This Topic</a>
@@ -34,7 +35,9 @@
       </div>
       {% if current_user.is_moderator() or (current_user.id==comment.author_id) %}
         <a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.edit_comment', comment_id=comment.id )}}" role="button">Edit This Comment</a>
+        <a class="btn btn-primary btn-sm m-2" href="{{ url_for('main.delete_comment', comment_id=comment.id )}}" role="button">Delete This Comment</a>
       {% endif %}
+      
     </div>
   </div>
   {% endfor %}

@@ -39,12 +39,7 @@ class EditTopicForm(FlaskForm):
     published = BooleanField( 'Publish')
     submit = SubmitField('Submit')
 
-class NewCommentForm(FlaskForm):
-    author_id = HiddenField()
-    topic_id = HiddenField()
-    content = TextAreaField('Your Comment', validators=[DataRequired()])
-    submit = SubmitField('Submit')
-    
+
 class InfoForm(FlaskForm):
     #title = StringField('Title')
     content = TextAreaField('Content (You can use Markdown here)') 
@@ -62,16 +57,27 @@ class DeleteTopicForm(FlaskForm):
     summary = TextAreaField('About This Topic')
     submit = SubmitField('Delete Topic and all comments about it')
     continu = SubmitField('Continue without deleting')
-'''
+
 class NewCommentForm(FlaskForm):
-    content = TextAreaField('Content', validators=[DataRequired()]) 
+    author_id = HiddenField()
+    topic_id = HiddenField()
+    content = TextAreaField('Your Comment', validators=[DataRequired()])
     submit = SubmitField('Submit')
-'''
+    
+
 class EditCommentForm(FlaskForm):
     author_id = HiddenField()
     topic_id = HiddenField()
     content = TextAreaField('Content') 
     submit = SubmitField('Submit')
+
+
+class DeleteCommentForm(FlaskForm):
+    author_id = HiddenField()
+    topic_id = HiddenField()
+    content = TextAreaField('Content') 
+    submit = SubmitField('Delete')
+    
 
 class SetMeetingTimeForm(FlaskForm):
     options=['proposed', 'online', 'scheduled']
