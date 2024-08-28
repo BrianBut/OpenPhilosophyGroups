@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
-from .forms import EditTopicForm, DeleteTopicForm, NewCommentForm, EditCommentForm, DeleteCommentForm, NewTopicForm, EditTopicForm, InfoForm, NewInfoForm
+from .forms import EditTopicForm, DeleteTopicForm, NewCommentForm, EditCommentForm, DeleteCommentForm, NewTopicForm, EditTopicForm, InfoForm, NewInfoForm, NewGroupForm
 from .. import db
 from ..models import Topic, User, Role, Comment, MailList, Info, Group, InfoCategoryChoices
 from ..decorators import member_required, admin_required, moderator_required
@@ -50,6 +50,23 @@ def home(gpid):
     logger.info('no topiclist found for group {} with description {}'.format(group, group.category.description))
 
     return render_template('home.html', group=group, topiclist=topiclist )
+
+
+@main.route('/new_group', methods=['GET', 'POST'])  
+@login_required  
+def new_group():
+    form = NewGroupForm()
+    if request.method == 'POST' and form.validate():
+        # form validator needs to check title is unique
+        #if Topic.query.filter_by(group=current_user.current_group).first():
+        #    flash(category='info', message='A topic with this title ({}) already exists. You cannot form a new topic with this title'.format(title))
+        #    logger.info("Title Exists so redirecting to new_group")
+        #    return redirect(url_for('topics.new_topic'))
+        group = Group(groupname=form.groupname.data, founder_id=current_user.id, category=form.group_category.data )
+        db.session.add(group)
+        db.session.commit()
+        return redirect(url_for('main.home', tid=topic.id ))
+    return render_template('/new_group.html', form=form)
     
 
 @main.route('/new_topic', methods=['GET', 'POST'])  

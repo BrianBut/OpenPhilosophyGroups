@@ -11,6 +11,12 @@ class NewTopicForm(FlaskForm):
     published = SelectField( '', choices=TOPIC_CHOICES, default=0 )
     submit = SubmitField('Submit')
 '''
+class NewGroupForm(FlaskForm):
+    content = TextAreaField('Content (You can use Markdown here)') 
+    group_category = SelectField( 'new group category',coerce=int )
+    submit = SubmitField('Submit')
+
+
 class NewInfoForm(FlaskForm):
     content = TextAreaField('Content (You can use Markdown here)') 
     info_category = SelectField( 'new info category',coerce=int )
