@@ -16,5 +16,6 @@ db.create_all()
 Role.insert_roles()
 Info.insert_default_info()
 Category.insert_categories()
+Group.insert_default_group()
 
 Run flask --app lp run --debug
