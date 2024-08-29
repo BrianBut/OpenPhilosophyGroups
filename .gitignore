@@ -47,7 +47,7 @@ venv
 
 # Instance and Config
 instance
-config_prod
+config_prod2
 config_dev
 
 # logging
