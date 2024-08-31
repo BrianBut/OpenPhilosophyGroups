@@ -206,7 +206,9 @@ class User(UserMixin, db.Model):
 
     def current_groupname(self):
         gr = Group.query.get(self.current_group)
-        return gr.groupname   
+        if gr:
+            return gr.groupname 
+        return 1  
 
     def ping(self):
         self.last_seen = datetime.now(tz=timezone.utc)
