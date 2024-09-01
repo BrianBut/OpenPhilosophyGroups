@@ -194,5 +194,5 @@ def setmeetingtime(topic_id):
 @moderator_required
 def mailaddresses():
     addresses = MailList.query.order_by('email').all()
-    return render_template("mailaddresses.html", addresses=addresses)
+    return render_template("/manage/mailaddresses.html", addresses=addresses)
 

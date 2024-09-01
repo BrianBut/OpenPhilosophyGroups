@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<div class="container-fluid">
+    <h3 class="text-center">Mail Addresses</h3>
+    {% for addr in addresses: %}
+    <div class="row">
+      <div class="col-1">
+        <p class="md">{{ addr['group'] }}</p>
+      </div>
+      <div class="col-9">
+        <p class="md">{{ addr['email'] }}</p>
+      </div>
+    </div>
+    {% endfor %}
+</div> 
+
+{% endblock %}
